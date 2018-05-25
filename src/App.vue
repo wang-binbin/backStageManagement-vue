@@ -1,27 +1,17 @@
 <template>
   <div id="app">
+  	<router-view></router-view>
     <!--<img src="./assets/logo.png">-->
     	
-    <home/>
-    <tab/>
-    <tabOptionOne/>
-    <tabOptionTwo/>
+
   </div>
 </template>
 
 <script>
-import home from './components/home'
-import tab from './components/tab'
-import tabOptionOne from './components/tabOptionOne'
-import tabOptionTwo from './components/tabOptionTwo'
+
 export default {
 name: 'App',
-  components: {
-    home,
-    tab,
-    tabOptionOne,
-    tabOptionTwo
-  }
+
 }
 </script>
 
