@@ -50,7 +50,7 @@
 			login: function() {
 				let that = this;
 				console.log(this)
-				that.$router.push('/app')
+				that.$router.push('/home')
 				
 //				var mobile = $("#code").val();
 //				var verifyCode = $("#inp").val();

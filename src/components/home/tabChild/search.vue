@@ -9,13 +9,14 @@
 			</div>
 			<p class="cle"></p>
 			<!-- Single button -->
-			<div class="btn-group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    筛选审核状态 <span class="caret"></span>
-  </button>
-				<ul class="dropdown-menu clicc">
-					<li id="0" @click="screen1" ref="id1">
-						<a> 待审核</a>
+			<div class="">
+
+				<ul class="clicc">
+					<li id="0" @click="screen1" class="1" ref="id1" style="background: blue;">
+						<a>注册待审</a>
+					</li>
+					<li id="0" @click="screen4" ip="0" ref="id4">
+						<a>资料待审</a>
 					</li>
 					<li id="1" @click="screen2" ref="id2">
 						<a>审核通过</a>
@@ -25,20 +26,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="btn-group btn-group1">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    按麦粒排序 <span class="caret"></span>
-  </button>
-				<ul class="dropdown-menu">
-					<li>
-						<a>暂未开通</a>
-					</li>
-					<li>
-						<a>暂未开通</a>
-					</li>
 
-				</ul>
-			</div>
 		</div>
 	</div>
 </template>
@@ -53,7 +41,7 @@
 		methods: {
 			search: function() {
 				let that = this;
-				
+
 				let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
 				if(!myreg.test(that.mobile)) {
 					alert("请输入正确的手机号码!")
@@ -68,7 +56,7 @@
 						dataType: "json",
 						success: function(result) {
 							if(result.status == '0000') {
-								that.mobile=''
+								that.mobile = ''
 								that.$emit("mobile", result)
 							} else {
 								alert(result.msg);
@@ -79,10 +67,12 @@
 			},
 			screen1: function() {
 				let that = this;
-				console.log(that.$refs.id1.id);
-				that.$refs.id1.style.background = "red";
-				that.$refs.id2.style.background = "#fff";
-				that.$refs.id3.style.background = "#fff";
+//				console.log(that.$refs.id1.id);
+				console.log(that.$refs.id1.class);
+				that.$refs.id1.style.background = "blue";
+				that.$refs.id2.style.background = "none";
+				that.$refs.id3.style.background = "none";
+				that.$refs.id4.style.background = "none";
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByStatus",
@@ -107,9 +97,10 @@
 			screen2: function() {
 				let that = this;
 				console.log(that.$refs.id2.id);
-				that.$refs.id2.style.background = "red";
-				that.$refs.id3.style.background = "#fff";
-				that.$refs.id1.style.background = "#fff";
+				that.$refs.id2.style.background = "blue";
+				that.$refs.id3.style.background = "none";
+				that.$refs.id1.style.background = "none";
+				that.$refs.id4.style.background = "none";
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByStatus",
@@ -134,9 +125,10 @@
 			screen3: function() {
 				let that = this;
 				console.log(that.$refs.id3.id);
-				that.$refs.id3.style.background = "red";
-				that.$refs.id2.style.background = "#fff";
-				that.$refs.id1.style.background = "#fff";
+				that.$refs.id3.style.background = "blue";
+				that.$refs.id2.style.background = "none";
+				that.$refs.id1.style.background = "none";
+				that.$refs.id4.style.background = "none";
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByStatus",
@@ -158,15 +150,57 @@
 					}
 				})
 			},
+			screen4: function() {
+				let that = this;
+				console.log(that.$refs.id4.id);
+				console.log(that.$refs.id4.ip);
+				that.$refs.id4.style.background = "blue";
+				that.$refs.id2.style.background = "none";
+				that.$refs.id1.style.background = "none";
+				that.$refs.id3.style.background = "none";
+				$.ajax({
+					type: "post",
+					url: "/user/getUsersListByStatus",
+					async: false,
+					data: {
+						checkStatus: 0,
+						page: 1,
+						pageSize: 10
+					},
+					dataType: "json",
+					success: function(result) {
+						console.log(result)
+						if(result.status == '0000') {
+							that.$emit("PagingData4", result)
+						} else {
+							alert(result.msg);
+						}
+
+					}
+				})
+			},
 		},
 	}
 </script>
 
 <style scoped="scoped">
-	.row{
+	.clicc li {
+		float: left;
+		width: 120px;
+		border-radius: 15px;
+		text-align: center;
+		line-height: 30px;
+	}
+	
+	.clicc li a {
+		color: #000000;
+	}
+	
+	.row {
 		margin-left: 0;
 		margin-right: 0;
 	}
+	
 	.mobile {
 		border-radius: 15px!important;
 	}

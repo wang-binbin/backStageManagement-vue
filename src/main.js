@@ -1,21 +1,20 @@
 
 import Vue from 'vue'
 import App from './App'
-import login from './login'
 import router from './router'
+import $ from 'jquery'
+import './assets/css/bootstrap.min.css'  
+import './assets/js/bootstrap.min.js'  
+import 'vue-beauty/package/style/vue-beauty.min.css'
+import vueBeauty from 'vue-beauty'
+Vue.use(vueBeauty)
+
 
 Vue.config.productionTip = false
-
-new Vue({
-  el: '#login',
-  router,
-  components: { login },
-  template: '<login/>'
-})
-
 new Vue({
   el: '#app',
   router,
+  $,
 components: { App },
 template: '<App/>'
 })
