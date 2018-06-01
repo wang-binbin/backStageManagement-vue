@@ -1,13 +1,14 @@
 <template>
 	<!--分页器-->
 	<div style="background: #fff;">
-		<v-pagination v-model="value" @change="loadPage" :total=totalElements :show-total="showTotal" show-quick-jumper>
+		<v-pagination  @change="loadPage" :total="totalElements" :value="1" :show-total="showTotal" show-quick-jumper>
 		</v-pagination>
 
 	</div>
 </template>
 
 <script>
+
 	import Vue from 'vue'
 	//import css
 	import 'vue-beauty/package/style/vue-beauty.min.css'
@@ -15,7 +16,7 @@
 	import vueBeauty from 'vue-beauty'
 	Vue.use(vueBeauty)
 	export default {
-		props: ['totalElements', 'checkStatus'],
+		props: ['totalElements', 'checkStatus',"value"],
 		data() {
 			return {
 
@@ -23,8 +24,9 @@
 		},
 		methods: {
 			loadPage(pageIndex) { 
+
 				var that = this;
-//				console.log(that.checkStatus)
+				console.log(that.value)
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByStatus",

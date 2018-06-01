@@ -7,9 +7,6 @@ import tab from '@/components/home/tab'
 import home from '@/components/home'
 import login from '@/components/login'
 
-
-
-
 Vue.use(Router)
 Vue.use(VueResource) 
 export default new Router({

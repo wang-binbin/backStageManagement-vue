@@ -45,7 +45,8 @@
 		methods: {
 			search: function() {
 				let that = this;
-
+//$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
+//$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
 				let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
 				if(!myreg.test(that.mobile)) {
 					alert("请输入正确的手机号码!")
@@ -70,6 +71,8 @@
 				}
 			},
 			screen1: function() {
+//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
+//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
 				let that = this;
 				console.log(that.$refs.id1.id);
 				console.log(that.one);
@@ -99,6 +102,8 @@
 				})
 			},
 			screen2: function() {
+//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
+//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
 				let that = this;
 				console.log(that.$refs.id2.id);
 				that.$refs.id2.style.background = "blue";
@@ -127,6 +132,8 @@
 				})
 			},
 			screen3: function() {
+//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
+//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
 				let that = this;
 				console.log(that.$refs.id3.id);
 				that.$refs.id3.style.background = "blue";
@@ -155,6 +162,8 @@
 				})
 			},
 			screen4: function() {
+//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
+//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
 				let that = this;
 				console.log(that.$refs.id4.id);
 				console.log(that.two);

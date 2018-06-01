@@ -11,9 +11,9 @@ import './assets/js/bootstrap.min.js'
 //import './assets/js/adapter.js'  
 import 'vue-beauty/package/style/vue-beauty.min.css'
 
+
 import vueBeauty from 'vue-beauty'
 Vue.use(vueBeauty)
-
 
 Vue.config.productionTip = false
 new Vue({

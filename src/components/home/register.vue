@@ -41,12 +41,17 @@
 			</table>
 			<p class="clee"></p>
 		</div>
-		<sorter :totalElements="totalElements" :checkStatus="checkStatu" v-on:PagingData="PagingData" />
+		<sorter :totalElements="parseInt(totalElements)" :checkStatus="status" :value="1" v-on:PagingData="PagingData" />
 		<!--{{checkStatu}}-->
 	</div>
 </template>
 
 <script>
+				$(".ant-pagination li").click(function(){
+				$(".activee").css({"background-color":"red!important",
+   "border-color":"red!important"})
+				alert("s")
+})
 	//每次刷新默认的请求
 	import sorter from './tabChild/sorter'
 	import search from './tabChild/search'
@@ -58,9 +63,9 @@
 					mobile:"15201621057",
 					infoAudit:0,
 					gender:"m",
-				}],
+				},],
 				totalElements: "",
-				checkStatu: 0,
+				status: 0,
 				phone:[],
 				phoneblock:false,
 				noData:false,
@@ -106,7 +111,7 @@
 				that.noData=false
 				that.users = data.data.users
 				that.totalElements = data.data.totalElements
-				that.checkStatu = data.data.users[0].infoAudit
+				that.status = data.data.users[0].infoAudit
 
 			},
 			PagingData1: function(data) {
@@ -116,7 +121,7 @@
 				that.phoneblock=false
 				that.users = data.data.users
 				that.totalElements = data.data.totalElements
-				that.checkStatu = data.data.users[0].infoAudit
+				that.status = data.data.users[0].infoAudit
 
 			},
 			PagingData2: function(data) {
@@ -126,7 +131,7 @@
 				that.phoneblock=false
 				that.users = data.data.users
 				that.totalElements = data.data.totalElements
-				that.checkStatu = data.data.users[0].infoAudit
+				that.status = data.data.users[0].infoAudit
 
 			},
 			PagingData3: function(data) {
@@ -136,20 +141,21 @@
 				that.phoneblock=false
 				that.users = data.data.users
 				that.totalElements = data.data.totalElements
-				that.checkStatu = data.data.users[0].infoAudit
+				that.status = data.data.users[0].infoAudit
 
 			},
 		},
 
 		mounted() {
-			this.$nextTick(() => {
+			this.$nextTick(() => {				
 				let that = this;
+				that.totalElements=50
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByStatus",
 					async: false,
 					data: {
-						checkStatus: that.checkStatu,
+						status: that.status,
 						page: 1,
 						pageSize: 10
 					},
@@ -160,7 +166,7 @@
 							//								console.log(result);
 							that.users = result.data.users
 							that.totalElements = result.data.totalElements
-							that.checkStatu = result.data.users[0].infoAudit
+							that.status = result.data.users[0].infoAudit
 
 						}
 					}
