@@ -2,10 +2,10 @@
 <div class="homepage">
 
 	<titlee/>
-	<!--<tab/>
+	<tab/>
 	<register/>
-	<pass/>-->
-	<ceshi/>
+	<pass/>
+	<!--<ceshi/>-->
 </div>
 </template>
 

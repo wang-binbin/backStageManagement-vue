@@ -8,8 +8,7 @@
 				<thead>
 					<tr>
 						<th>昵称</th>
-						<!--<th>当前算力</th>
-										<th>当前麦粒</th>-->
+						<th>性别</th>
 						<th>电话</th>
 						<!--<th>详情</th>-->
 						<th>账户</th>
@@ -21,6 +20,7 @@
 				<tbody id="conn">
 					<tr v-for="items in users" :key="">
 						<th>{{items.nickName}}</th>
+						<th class="red">{{items.gender=='m'?'男':(items.gender=='f'?'女':'')}}</th>
 						<th>{{items.mobile}}</th>
 						<th class="red">查看</th>
 						<th class="red">查看</th>
@@ -29,6 +29,7 @@
 					</tr>
 					<tr v-show="phoneblock">
 						<th>{{phone.nickName}}</th>
+						<th class="red">{{phone.gender=='m'?'男':(phone.gender=='f'?'女':'')}}</th>
 						<th>{{phone.mobile}}</th>
 						<th class="red">查看</th>
 						<th class="red">查看</th>
@@ -52,7 +53,12 @@
 	export default {
 		data() {
 			return {
-				users: [],
+				users: [{
+					nickName:"555",
+					mobile:"15201621057",
+					infoAudit:0,
+					gender:"m",
+				}],
 				totalElements: "",
 				checkStatu: 0,
 				phone:[],

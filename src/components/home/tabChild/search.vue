@@ -1,6 +1,7 @@
 <template>
 	<div class="row">
 		<div class="wid">
+			<p class="tle">注册审核</p>
 			<ul @click="search" class="sousuo">
 				搜索
 			</ul>
@@ -12,10 +13,10 @@
 			<div class="">
 
 				<ul class="clicc">
-					<li id="0" @click="screen1" class="1" ref="id1" style="background: blue;">
+					<li id="0" @click="screen1" class="one" ref="id1" style="background: blue;">
 						<a>注册待审</a>
 					</li>
-					<li id="0" @click="screen4" ip="0" ref="id4">
+					<li id="0" @click="screen4" class="two" ref="id4">
 						<a>资料待审</a>
 					</li>
 					<li id="1" @click="screen2" ref="id2">
@@ -24,6 +25,7 @@
 					<li id="2" @click="screen3" ref="id3">
 						<a>审核未通过</a>
 					</li>
+					<p style="clear: both;"></p>
 				</ul>
 			</div>
 
@@ -36,6 +38,8 @@
 		data() {
 			return {
 				mobile: "",
+				two:0,
+				one:1,
 			}
 		},
 		methods: {
@@ -67,8 +71,8 @@
 			},
 			screen1: function() {
 				let that = this;
-//				console.log(that.$refs.id1.id);
-				console.log(that.$refs.id1.class);
+				console.log(that.$refs.id1.id);
+				console.log(that.one);
 				that.$refs.id1.style.background = "blue";
 				that.$refs.id2.style.background = "none";
 				that.$refs.id3.style.background = "none";
@@ -153,7 +157,7 @@
 			screen4: function() {
 				let that = this;
 				console.log(that.$refs.id4.id);
-				console.log(that.$refs.id4.ip);
+				console.log(that.two);
 				that.$refs.id4.style.background = "blue";
 				that.$refs.id2.style.background = "none";
 				that.$refs.id1.style.background = "none";
@@ -184,6 +188,12 @@
 </script>
 
 <style scoped="scoped">
+	.tle{
+	    float: left;
+    margin: 0;
+    margin-left: 10%;
+    line-height: 75px;
+    font-size: 34px;}
 	.clicc li {
 		float: left;
 		width: 120px;
@@ -200,7 +210,9 @@
 		margin-left: 0;
 		margin-right: 0;
 	}
-	
+	.biaoge{
+		margin-top: 0;
+	}
 	.mobile {
 		border-radius: 15px!important;
 	}
