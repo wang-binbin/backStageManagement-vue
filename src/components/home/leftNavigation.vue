@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		<div class="leftNavigation">
 			<div class="account-l fl" style="width: 100%;">
 				<a class="list-title">
@@ -40,18 +39,18 @@
 				</ul>
 			</div>
 		</div>
-		<register :userss="userss" :paging="paging" />
+		<registerPending :userss="userss" :paging="paging" />
 	</div>
 </template>
 
 <script>
-	import register from './tabChild/register'
-
+	import registerPending from './tabChild/registerPending'
+//alert($(window).height())
 	export default {
 		name: "leftNavigation",
 
 		components: {
-			register,
+			registerPending,
 		},
 		data() {
 			return {
@@ -63,8 +62,8 @@
 		},
 		methods: {
 			screen1: function() {
-
 				let that = this;
+				that.$router.push('/registerPending');
 				that.userss = "[{'nickName': 'zik','mobile': '15892333333','status': '0','gender': 'm'}]";
 				console.log(that.$refs.id1.id);
 				console.log(that.one);
@@ -93,7 +92,9 @@
 				})
 			},
 			screen4: function() {
+				
 				let that = this;
+				that.$router.push('/InformationPending');
 				console.log(that.$refs.id4.id);
 				console.log(that.two);
 

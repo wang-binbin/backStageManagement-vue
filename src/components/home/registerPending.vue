@@ -17,7 +17,7 @@
 					</tr>
 				</thead>
 				<tbody id="conn">
-					<tr v-for="items in userss" :key="">
+					<tr v-for="items in users" :key="">
 						<th>{{items.nickName}}</th>
 						<th class="red">{{items.gender=='m'?'男':(items.gender=='f'?'女':'')}}</th>
 						<th>{{items.mobile}}</th>
