@@ -47,8 +47,7 @@
 				</ul>
 			</div>
 		</div>
-		<registerPending :userss="userss" :paging="paging" />
-
+	<router-view></router-view>
 	</div>
 </template>
 
@@ -96,6 +95,9 @@ import InformationPending from './home/InformationPending'
 	}
 </script>
 
-<style>
+<style scoped="scoped">
 
+.submenu li a:nth-child(1){
+	padding: 6px;
+}
 </style>

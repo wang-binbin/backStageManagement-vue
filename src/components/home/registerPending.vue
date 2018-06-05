@@ -2,6 +2,7 @@
 	<div id="home" class="home tab-pane active">
 		<!--<search v-on:PagingData1="PagingData1" v-on:PagingData2="PagingData2" v-on:PagingData3="PagingData3" v-on:mobile="mobile" />-->
 		<!--表格-->
+		2222222222222222222222222
 		<div class="biaoge" style="margin-top: 30px;">
 			<table class="table table2" style="background: none;">
 				<thead>
@@ -67,10 +68,32 @@
 
 			}
 		},
-		computed: {
-//			return 	this.users=userss;
+		mounted:function(){
+			this.getData();
 		},
 		methods: {
+			getData: function() {
+				$.ajax({
+					type: "post",
+					url: "/user/getUsersListByStatus",
+					async: false,
+					data: {
+						status: 0,
+						page: 1,
+						infoCheckStatus: 1,
+						pageSize: 10
+					},
+					dataType: "json",
+					success: function(result) {
+						//		console.log(result);
+						if(result.status == '0000') {
+							that.users = result.data.users
+							that.totalElements = result.data.totalElements
+
+						}
+					}
+				})
+			},
 			loadPage(pageIndex) {
 				var that = this;
 				$.ajax({
@@ -100,35 +123,6 @@
 				console.log('请求' + pageIndex + "页");
 				console.log(screen1);
 			},
-			loadPage1(pageIndex) {
-				var that = this;
-				$.ajax({
-					type: "post",
-					url: "/user/getUsersListByStatus",
-					async: true,
-					data: {
-						status: that.checkStatus,
-						infoCheckStatus:that.infoCheckStatus,
-						page: pageIndex,
-						pageSize: 10
-					},
-					dataType: "json",
-					success: function(result) {
-						//						console.log(result);
-						if(result.status == "0000") {
-							that.phoneblock = false
-							that.noData = false
-							that.users = result.data.users
-							that.totalElements = result.data.totalElements
-
-						} else {
-							alert(result.msg);
-						
-						}
-					}
-				})
-				console.log('请求' + pageIndex + "页");
-			},
 			showTotal(total) {
 				return `共 ${total} 条`;
 			},
@@ -153,31 +147,31 @@
 
 		},
 
-		mounted() {
-			this.$nextTick(() => {
-				let that = this;
-				$.ajax({
-					type: "post",
-					url: "/user/getUsersListByStatus",
-					async: false,
-					data: {
-						status: 0,
-						page: 1,
-						infoCheckStatus: 1,
-						pageSize: 10
-					},
-					dataType: "json",
-					success: function(result) {
-						//		console.log(result);
-						if(result.status == '0000') {
-							that.users = result.data.users
-							that.totalElements = result.data.totalElements
-
-						}
-					}
-				})
-			})
-		},
+//		mounted() {
+//			this.$nextTick(() => {
+//				let that = this;
+//				$.ajax({
+//					type: "post",
+//					url: "/user/getUsersListByStatus",
+//					async: false,
+//					data: {
+//						status: 0,
+//						page: 1,
+//						infoCheckStatus: 1,
+//						pageSize: 10
+//					},
+//					dataType: "json",
+//					success: function(result) {
+//						//		console.log(result);
+//						if(result.status == '0000') {
+//							that.users = result.data.users
+//							that.totalElements = result.data.totalElements
+//
+//						}
+//					}
+//				})
+//			})
+//		},
 	}
 </script>
 
