@@ -1,33 +1,31 @@
 <template>
 <div class="homepage">
 
-	<titlee/>
-	<tab/>
-	<register/>
-	<pass/>
+	<!--<titlee/>-->
+	<!--<tab/>-->
+	<!--<register/>-->
+	<!--<pass/>-->
 
-	<!--<ceshi/>-->
+	<leftNavigation/>
 
 </div>
 </template>
 
 <script>
-import titlee from './home/title'
-import tab from './home/tab'
-import register from './home/register'
-import pass from './home/pass'
+//import titlee from './home/title'
+//import tab from './home/tab'
+//import register from './home/register'
 
-import ceshi from './ceshi'
+
+import leftNavigation from './home/leftNavigation'
 
 export default {
 	name:"homepage",
 	components: {
-    titlee,
-    tab,
-    register,
-    pass,
-
-    ceshi
+//  titlee,
+//  tab,
+//  register,
+    leftNavigation
 
 }
 }

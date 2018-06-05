@@ -1,34 +1,23 @@
 <template>
 	<div class="row">
 		<div class="wid">
-			<p class="tle">注册审核</p>
-			<ul @click="search" class="sousuo">
-				搜索
-			</ul>
-			<div class="input-group">
-				<input @keyup.13="search" type="tel" maxlength="11" class="form-control mobile" v-model="mobile" placeholder="搜索用户手机号">
-			</div>
-			<p class="cle"></p>
-			<!-- Single button -->
-			<div class="">
-
-				<ul class="clicc">
-					<li id="0" @click="screen1" class="one" ref="id1" style="background: blue;">
-						<a>注册待审</a>
+			<div class="btn-group sousuo">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    查询方式 <span class="caret"></span>
+  </button>
+				<ul class="dropdown-menu" style="min-width: 100px">
+					<li class="searchPhone" @click="search">
+						<a>查询手机号</a>
 					</li>
-					<li id="0" @click="screen4" class="two" ref="id4">
-						<a>资料待审</a>
+					<li class="searchNickname">
+						<a>查询昵称</a>
 					</li>
-					<li id="1" @click="screen2" ref="id2">
-						<a>审核通过</a>
-					</li>
-					<li id="2" @click="screen3" ref="id3">
-						<a>审核未通过</a>
-					</li>
-					<p style="clear: both;"></p>
 				</ul>
 			</div>
 
+			<div class="input-group">
+				<input  type="tel"  class="form-control mobile" v-model="mobile" placeholder="搜索用户手机号/或昵称">
+			</div>
 		</div>
 	</div>
 </template>
@@ -38,17 +27,13 @@
 		data() {
 			return {
 				mobile: "",
-				two:0,
-				one:1,
 			}
 		},
 		methods: {
 			search: function() {
 				let that = this;
-//$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
-//$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
-				let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if(!myreg.test(that.mobile)) {
+//				let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if(that.mobile=='') {
 					alert("请输入正确的手机号码!")
 				} else {
 					$.ajax({
@@ -70,139 +55,25 @@
 					})
 				}
 			},
-			screen1: function() {
-//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
-//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
-				let that = this;
-				console.log(that.$refs.id1.id);
-				console.log(that.one);
-				that.$refs.id1.style.background = "blue";
-				that.$refs.id2.style.background = "none";
-				that.$refs.id3.style.background = "none";
-				that.$refs.id4.style.background = "none";
-				$.ajax({
-					type: "post",
-					url: "/user/getUsersListByStatus",
-					async: false,
-					data: {
-						checkStatus: 0,
-						page: 1,
-						pageSize: 10
-					},
-					dataType: "json",
-					success: function(result) {
-						console.log(result)
-						if(result.status == '0000') {
-							that.$emit("PagingData1", result)
-						} else {
-							alert(result.msg);
-						}
 
-					}
-				})
-			},
-			screen2: function() {
-//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
-//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
-				let that = this;
-				console.log(that.$refs.id2.id);
-				that.$refs.id2.style.background = "blue";
-				that.$refs.id3.style.background = "none";
-				that.$refs.id1.style.background = "none";
-				that.$refs.id4.style.background = "none";
-				$.ajax({
-					type: "post",
-					url: "/user/getUsersListByStatus",
-					async: false,
-					data: {
-						checkStatus: 1,
-						page: 1,
-						pageSize: 10
-					},
-					dataType: "json",
-					success: function(result) {
-						console.log(result)
-						if(result.status == '0000') {
-							that.$emit("PagingData2", result)
-						} else {
-							alert(result.msg);
-						}
-
-					}
-				})
-			},
-			screen3: function() {
-//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
-//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
-				let that = this;
-				console.log(that.$refs.id3.id);
-				that.$refs.id3.style.background = "blue";
-				that.$refs.id2.style.background = "none";
-				that.$refs.id1.style.background = "none";
-				that.$refs.id4.style.background = "none";
-				$.ajax({
-					type: "post",
-					url: "/user/getUsersListByStatus",
-					async: false,
-					data: {
-						checkStatus: 2,
-						page: 1,
-						pageSize: 10
-					},
-					dataType: "json",
-					success: function(result) {
-						console.log(result)
-						if(result.status == '0000') {
-							that.$emit("PagingData3", result)
-						} else {
-							alert(result.msg);
-						}
-
-					}
-				})
-			},
-			screen4: function() {
-//				$(".ant-pagination .ant-pagination-item-1").addClass("ant-pagination-item-active")
-//				$(".ant-pagination .ant-pagination-item-1").siblings("li").removeClass("ant-pagination-item-active")
-				let that = this;
-				console.log(that.$refs.id4.id);
-				console.log(that.two);
-				that.$refs.id4.style.background = "blue";
-				that.$refs.id2.style.background = "none";
-				that.$refs.id1.style.background = "none";
-				that.$refs.id3.style.background = "none";
-				$.ajax({
-					type: "post",
-					url: "/user/getUsersListByStatus",
-					async: false,
-					data: {
-						checkStatus: 0,
-						page: 1,
-						pageSize: 10
-					},
-					dataType: "json",
-					success: function(result) {
-						console.log(result)
-						if(result.status == '0000') {
-							that.$emit("PagingData4", result)
-						} else {
-							alert(result.msg);
-						}
-
-					}
-				})
-			},
 		},
 	}
 </script>
 
 <style scoped="scoped">
-	.tle{
-	    float: left;
-    margin: 0;
-    margin-left: 10%;
-    line-height: 75px;
-    font-size: 34px;}
+	.btn-group {
+				margin-left: 0;
+				margin-top: 20px;
+				background: none;
+			}
+	.tle {
+		float: left;
+		margin: 0;
+		margin-left: 10%;
+		line-height: 75px;
+		font-size: 34px;
+	}
+	
 	.clicc li {
 		float: left;
 		width: 120px;
@@ -218,10 +89,10 @@
 	.row {
 		margin-left: 0;
 		margin-right: 0;
+			background: #fff;
+		box-shadow: 0px 0px 5px #888888;
 	}
-	.biaoge{
-		margin-top: 0;
-	}
+	
 	.mobile {
 		border-radius: 15px!important;
 	}
