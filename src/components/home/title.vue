@@ -9,12 +9,9 @@
 
 					</div>
 					<div class="title">
-						<ul>
-							麦苗iMaggie后台管理系统V1.0
-						</ul>
 						<ul class="user">
 							<li>{{msg}}</li>
-							<li>退出</li>
+							<li class="blue">退出</li>
 						</ul>
 					</div>
 				</div>
@@ -37,7 +34,14 @@ export default {
 <style scoped>
 	.navbar{
 		border: none;
+		border-radius: 0;
 		margin-bottom: 2px;
+		background: #434956;
 	}
-
+	
+.title ul:nth-child(1){
+	float: right;
+	color: #fff;
+	margin-right: 50px;
+}
 </style>

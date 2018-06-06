@@ -5,6 +5,7 @@ import app from '@/App'
 import title from '@/components/home/title'
 //import leftNavigation from '@/components/home/leftNavigation'
 import registerPending from '@/components/home/registerPending'
+import userManagement from '@/components/home/userManagement'
 import InformationPending from '@/components/home/InformationPending'
 import verified from '@/components/home/verified'
 import home from '@/components/home'
@@ -23,7 +24,11 @@ export default new Router({
 			component: home,
 			children: [ {
 					path: "/",
-					component: registerPending
+					component: userManagement
+				},
+				{
+					path: "/userManagement",
+					component: userManagement,
 				},
 				{
 					path: "/registerPending",

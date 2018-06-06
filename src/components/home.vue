@@ -1,103 +1,150 @@
 <template>
 	<div class="homepage">
-		<div class="leftNavigation">
-			<div class="account-l fl" style="width: 100%;">
-				<a class="list-title">
-					<!--<img style="width: 100%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/official/logo.png">-->
-					麦奇后台
-				</a>
-				<ul id="accordion" class="accordion">
+		<Title/>
+		<div class="content">
+			<div id="jquery-accordion-menu" class="jquery-accordion-menu red">
+				<!--<div class="jquery-accordion-menu-header" id="form"></div>-->
+				<ul id="demo-list">
 					<li>
-						<div class="link"><i class="fa fa-file-text"></i>注册审核<i class="fa fa-chevron-down"></i></div>
+						<router-link to="/userManagement"><i class="fa fa-suitcase"></i>用户管理</router-link>
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-cog"></i>审核管理</a>
 						<ul class="submenu">
-							<li >
-								<router-link to="/registerPending">
-								<a>注册待审</a>
-								</router-link>
-							</li>
-							<li >
-								<router-link to="/InformationPending">
-								<a>资料待审</a>
-								</router-link>
+
+							<li>
+								<router-link to="/registerPending">注册待审</router-link>
 							</li>
 							<li>
-								
-								<a>审核通过</a>
-								
+								<router-link to="/InformationPending">资料待审</router-link>
 							</li>
-							<li >
-								
-								<a>审核拒绝</a>
-							
+							<!--<li><a href="#">Design </a>
+						<ul class="submenu">
+							<li><a href="#">Graphics </a></li>
+							<li><a href="#">Vectors </a></li>
+							<li><a href="#">Photoshop </a></li>
+							<li><a href="#">Fonts </a></li>
+						</ul>
+					</li>-->
+							<li>
+								<a href="#">审核通过</a>
+							</li>
+							<li>
+								<a href="#">审核拒绝</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-suitcase"></i>Portf</a>
+						<ul class="submenu">
+							<li>
+								<a href="#">Web D</a>
+							</li>
+							<!--<li><a href="#">Graphics </a><span class="jquery-accordion-menu-label">10 </span></li>-->
+							<li>
+								<a href="#">Photos</a>
+							</li>
+							<li>
+								<a href="#">Program</a>
 							</li>
 						</ul>
 					</li>
 
-					<li>
-						<div class="link"><i class="fa fa-hand-o-right"></i>资料审核<i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							<li>
-								<a>审核通过</a>
-							</li>
-							<li>
-								<a>审核拒绝</a>
-							</li>
-						</ul>
-					</li>
 				</ul>
+
 			</div>
 		</div>
-	<router-view></router-view>
+		<router-view style='margin-left: 10%;'></router-view>
 	</div>
 </template>
 
 <script>
+	import $ from 'jquery'
+
+	import '../assets/css/jquery-accordion-menu.css'
+	import '../assets/js/jquery-accordion-menu.js'
 	import registerPending from './home/registerPending'
-import InformationPending from './home/InformationPending'
+	import InformationPending from './home/InformationPending'
+import Title from './home/title'
 	export default {
+		inject: ["reload"],
 		name: "homepage",
 		components: {
 			registerPending,
-			InformationPending
+			InformationPending,
+			Title
 		},
 		data() {
 			return {
-				two: 0,
-				one: 1,
-				paging: '',
-				userss: [],
+
 			}
 		},
+		mounted: function() {
+
+			this.go();
+			//			this.reload();
+
+		},
 		methods: {
-			screen1: function() {
-				let that = this;
-//				that.$router.push('/registerPending');
-				that.status = 0;
-				that.infoCheckStatus = 1;
-			},
-			screen4: function() {
+			go: function() {
+				this.$router.push("/userManagement");
+				jQuery(document).ready(function() {
+					jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
 
-				let that = this;
-//				that.$router.push('/InformationPending');
-				that.status = 0;
-				that.infoCheckStatus = 0;
+				});
+				$(function() {
+					//顶部导航切换
+					$("#demo-list li").click(function() {
+						$("#demo-list li.active").removeClass("active")
+						$(this).addClass("active");
+					})
+				})
 			},
-			screen2: function() {
-				let that = this;
-				that.status = 1;
-			},
-			screen3: function() {
-				let that = this;
-				that.status = 2;
-			},
-
 		},
 	}
 </script>
 
 <style scoped="scoped">
-
-.submenu li a:nth-child(1){
-	padding: 6px;
-}
+	* {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+	}
+	
+	body {
+		background: #f0f0f0;
+		padding: 0;
+		margin: 0;
+	}
+	
+	.content {
+		width: 10%;
+		position: fixed;
+		height: 100%;
+		background: #414956;
+		overflow-y: auto;
+	}
+	
+	.filterinput {
+		background-color: rgba(249, 244, 244, 0);
+		border-radius: 15px;
+		width: 90%;
+		height: 30px;
+		border: thin solid #FFF;
+		text-indent: 0.5em;
+		font-weight: bold;
+		color: #FFF;
+	}
+	
+	#demo-list a {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100%;
+	}
+	
+	.active a:nth-child(1) {
+		/*padding: 0;*/
+	}
 </style>
