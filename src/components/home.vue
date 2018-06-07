@@ -5,7 +5,7 @@
 			<div id="jquery-accordion-menu" class="jquery-accordion-menu red">
 				<!--<div class="jquery-accordion-menu-header" id="form"></div>-->
 				<ul id="demo-list">
-					<li>
+					<li class="active">
 						<router-link to="/userManagement"><i class="fa fa-suitcase"></i>用户管理</router-link>
 					</li>
 					<li>
