@@ -26,7 +26,7 @@
 		},
 
 		methods: {
-			getcode: function() {
+			getcode: function() {//获取验证码
 				var mobile = $("#code").val();
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
 				if(!myreg.test(mobile)) {
@@ -47,11 +47,10 @@
 					})
 				}
 			},
-			login: function() {
+			login: function() {//登录
 				let that = this;
-				console.log(this)
+//				console.log(this)
 //				that.$router.push('/home')
-				
 				var mobile = $("#code").val();
 				var verifyCode = $("#inp").val();
 				console.log(mobile + verifyCode)
@@ -60,7 +59,6 @@
 						type: "post",
 						url: "/admin/login",
 						async: true,
-						//		Content-Type:"application/x-www-form-urlencoded",
 						data: {
 							mobile: mobile,
 							verifyCode: verifyCode
@@ -72,7 +70,7 @@
 								alert(result.msg)
 							}
 							if(result.status == "0000") {
-								console.log(that)
+//								console.log(that)
 							that.$router.push('/home')
 							}
 							//
@@ -89,6 +87,10 @@
 </script>
 
 <style scoped>
+	.row{
+		padding: 0;
+		margin: 0;
+	}
 	p {
 		height: 20px;
 	}

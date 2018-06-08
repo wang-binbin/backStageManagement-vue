@@ -1,14 +1,15 @@
 <template>
-	<div class="examine">
+	<div>
+	<div class="examine registerPendinExamine">
 		<div class="examineCon">
-			<div class="tielee">用户信息
+			<div class="tielee">注册审核
 				<p class="cancel" @click="cancel">X</p>
 			</div>
 			<div class="photo">
 				<ul>
 					<li v-for="items in photoArry" :key=''><img :src="items.pic"></li>
 					<li v-for="item in photoArryRedPack" :key=''><img :src="item.redPkgPic">
-					<img style="position: absolute;top: 0px;left: 0px;width: 20%;height: 20%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/redbao.png" />
+						<img style="position: absolute;top: 0px;left: 0px;width: 20%;height: 20%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/redbao.png" />
 					</li>
 					<p style="clear: both;"></p>
 				</ul>
@@ -32,43 +33,35 @@
 				<ul>
 					<li>当前状态:{{status=='1001'?'审核通过(未上墙)':(status=='2000'?'审核拒绝':status == '0000'?'等待审核':status == '1000'?'上墙':'')}}</li>
 				</ul>
-				<ul class="audit" v-if="status=='1001'">
-					<li class="hand" @click="revocation">撤销审核</li>
-					<li class="hand" @click="onWall">上墙</li>
-					<p style="clear: both;"></p>
-				</ul>
-				<ul class="audit" v-else-if="status=='1000'">
-					<li class="hand" @click="revocation">撤销审核</li>
-					<li class="hand" @click="downFrame">下架</li>
-					<p style="clear: both;"></p>
-				</ul>
-				<ul class="audit" v-else="status=='2000'">
-					<li class="hand" style="margin-left: 365px;" @click="revocation">撤销审核</li>
+
+				<ul class="audit" v-if="status=='0000'">
+					<li class="hand" @click="auditPass">审核通过</li>
+					<li class="hand" @click="auditRefuse">审核拒绝</li>
 					<p style="clear: both;"></p>
 				</ul>
 
 			</div>
 		</div>
 
-	</div>
+	</div><router-view style=''></router-view></div>
 </template>
 
 <script>
 	export default {
-		name: "examine",
+		name: "registerPendinExamine",
 		inject: ["reload"],
 		data() {
 			return {
 				nickName: '',
 				gerden: '',
 				age: '',
-				status: '',
+				status: '0000',
 				introduction: '',
 				industry: '',
 				education: '',
 				place: '',
 				photoArryRedPack: [],
-				photoArry:[],
+				photoArry: [],
 				content: []
 			}
 		},
@@ -78,13 +71,12 @@
 		methods: {
 			getExamine: function() {
 				var that = this;
-				console.log(that.$route.query.examin)
 				$.ajax({ //通过id拿到详情数据
 					type: "post",
 					url: "/user/getUserInfo",
 					async: false,
 					data: {
-						userId: that.$route.query.examin
+						userId: that.$route.query.registerPendinExamine
 					},
 					dataType: "json",
 					success: function(result) {
@@ -93,7 +85,7 @@
 							that.industry = result.data.userInfo.industry
 							that.education = result.data.userInfo.education
 							that.place = result.data.userInfo.place
-							console.log(that.introduction+that.industry)
+							console.log(that.introduction + that.industry)
 							that.status = result.data.userInfo.status
 							that.nickName = result.data.userInfo.nickName
 							that.age = result.data.userInfo.age
@@ -101,42 +93,44 @@
 							for(var i = 0; i < result.data.userInfo.mediaList.length; i++) {
 								if(result.data.userInfo.mediaList[i].type == 'redPkgPic') {
 									$.ajax({ //在oss获取图片如果是红包照片存到photoArryRedPack
-									type: "post",
-									url: "/admin/getPicURL",
-									async: false,
-									data: {
-										ossRef: result.data.userInfo.mediaList[i].ossRef
-									},
-									dataType: "json",
-									success: function(result) {
-										if(result.status == '0000') {
-										that.photoArryRedPack.push({ 'redPkgPic':result.data.url})
-										} else {
-											alert(result.msg)
+										type: "post",
+										url: "/admin/getPicURL",
+										async: false,
+										data: {
+											ossRef: result.data.userInfo.mediaList[i].ossRef
+										},
+										dataType: "json",
+										success: function(result) {
+											if(result.status == '0000') {
+												that.photoArryRedPack.push({
+													'redPkgPic': result.data.url
+												})
+											} else {
+												alert(result.msg)
+											}
 										}
-									}
-								})
-								} else{
-										$.ajax({ //在oss获取图片如果不是红包照片photoArryRedPack
-									type: "post",
-									url: "/admin/getPicURL",
-									async: false,
-									data: {
-										ossRef: result.data.userInfo.mediaList[i].ossRef
-									},
-									dataType: "json",
-									success: function(result) {
-										if(result.status == '0000') {
-											that.photoArry.push({"pic":result.data.url})
-										} else {
-											alert(result.msg)
+									})
+								} else {
+									$.ajax({ //在oss获取图片如果不是红包照片photoArryRedPack
+										type: "post",
+										url: "/admin/getPicURL",
+										async: false,
+										data: {
+											ossRef: result.data.userInfo.mediaList[i].ossRef
+										},
+										dataType: "json",
+										success: function(result) {
+											if(result.status == '0000') {
+												that.photoArry.push({
+													"pic": result.data.url
+												})
+											} else {
+												alert(result.msg)
+											}
 										}
-									}
-								})
+									})
 								}
-								
-								
-								
+
 							}
 						} else {
 							alert(result.msg)
@@ -146,74 +140,62 @@
 			},
 			cancel: function() {
 				var that = this //取消调回原来页面
-				that.$router.push('/userManagement')
+				that.$router.push('/registerPending')
 			},
-			revocation: function() {
+			auditPass: function() {//跳转通过页面
 				var that = this
-				$.ajax({ //撤销审核
-					type: "post",
-					url: "/admin/updateCheckStatus",
-					async: false,
-					data: {
-						userId: that.$route.query.examin,
-						status: '0000'
-					},
-					dataType: "json",
-					success: function(result) {
-						if(result.status == '0000') {
-							that.$router.push('/userManagement')
-							that.reload();
-						} else {
-							alert(result.msg)
-						}
+				that.$router.push({
+					path: '/pass',
+					query: {
+						registerPendinExamine: that.$route.query.registerPendinExamine
 					}
 				})
+//				var that = this
+//				$.ajax({ //审核通过
+//					type: "post",
+//					url: "/admin/updateCheckStatus",
+//					async: false,
+//					data: {
+//						userId: that.$route.query.registerPendinExamine,
+//						status: '1000'
+//					},
+//					dataType: "json",
+//					success: function(result) {
+//						if(result.status == '0000') {
+//							that.$router.push('/userManagement')
+//							that.reload();
+//						} else {
+//							alert(result.msg)
+//						}
+//					}
+//				})
 			},
-			onWall: function() {
-
+			auditRefuse: function() {//跳转拒绝页面
 				var that = this
-				console.log(that.$route.query.examin)
-				$.ajax({ //上墙
-					type: "post",
-					url: "/admin/updateCheckStatus",
-					async: false,
-					data: {
-						userId: that.$route.query.examin,
-						status: '1000'
-					},
-					dataType: "json",
-					success: function(result) {
-						if(result.status == '0000') {
-							that.$router.push('/userManagement')
-							that.reload();
-						} else {
-							alert(result.msg)
-						}
+				that.$router.push({
+					path: '/refuse',
+					query: {
+						registerPendinExamine: that.$route.query.registerPendinExamine
 					}
 				})
-			},
-			downFrame: function() {
-
-				var that = this
-				console.log(that.$route.query.examin)
-				$.ajax({ //下架
-					type: "post",
-					url: "/admin/updateCheckStatus",
-					async: false,
-					data: {
-						userId: that.$route.query.examin,
-						status: '1001'
-					},
-					dataType: "json",
-					success: function(result) {
-						if(result.status == '0000') {
-							that.$router.push('/userManagement')
-							that.reload();
-						} else {
-							alert(result.msg)
-						}
-					}
-				})
+//				$.ajax({ 
+//					type: "post",
+//					url: "/admin/updateCheckStatus",
+//					async: false,
+//					data: {
+//						userId: that.$route.query.examin,
+//						status: '1000'
+//					},
+//					dataType: "json",
+//					success: function(result) {
+//						if(result.status == '0000') {
+//							that.$router.push('/userManagement')
+//							that.reload();
+//						} else {
+//							alert(result.msg)
+//						}
+//					}
+//				})
 			},
 		},
 	}
@@ -230,17 +212,14 @@
 	
 	.audit li {
 		float: left;
+		width: 150px;
+		border: 1px solid #9D9D9D;
+		text-align: center;
 	}
 	
 	.audit li:nth-child(1) {
-		margin-left: 300px;
+		margin-left: 234px;
 		margin-right: 50px;
-	}
-	
-	.audit li:nth-child(2) {
-		width: 90px;
-		border: 1px solid #9D9D9D;
-		text-align: center;
 	}
 	
 	.presentStatus {
@@ -299,6 +278,15 @@
 		margin-left: 30px;
 	}
 	
+	.tielee {
+		position: relative;
+		padding-left: 20px;
+		height: 50px;
+		line-height: 50px;
+		font-size: 20px;
+		border-bottom: 1px solid #5E5E5E;
+	}
+	
 	.cancel {
 		cursor: pointer;
 		font-size: 26px;
@@ -311,18 +299,8 @@
 		top: 0;
 	}
 	
-	.tielee {
-		position: relative;
-		text-align: center;
-		height: 50px;
-		line-height: 50px;
-		font-size: 20px;
-		border-bottom: 1px solid #5E5E5E;
-	}
-	
 	.examine {
 		position: fixed;
-		z-index: 2;
 		width: 100%;
 		top: 0;
 		background: rgba(0, 0, 0, 0.3);

@@ -1,5 +1,5 @@
 <template>
-	<div class="home tab-pane active">
+	<div class="Home tab-pane active">
 		<!--<search v-on:PagingData1="PagingData1" v-on:PagingData2="PagingData2" v-on:PagingData3="PagingData3" v-on:mobile="mobile" />-->
 
 		<div class="usermanagement">
@@ -30,10 +30,10 @@
 				<span class="sex">性别:</span>
 				<div class="btn-group sexclick">
 					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    						{{genderr}} <span class="caret"></span></button>
+{{changgender=='m'?'男性用户':(changgender=='f'?'女性用户':changgender == ''?'全部用户':'')}}<span class="caret"></span></button>
 					<ul class="dropdown-menu" style="min-width: 100px">
-						<li class="allgender" @click="changeGender()">
-							<a>全部状态</a>
+						<li class="allgender" @click="changeGender('')">
+							<a>全部用户</a>
 						</li>
 						<li class="genderm" @click="changeGender('m')">
 							<a>男性用户</a>
@@ -48,14 +48,14 @@
 				<span class="staTus">审核状态:</span>
 				<div class="btn-group staTusclick">
 					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{{statuss}} <span class="caret"></span>
+						{{changStatus=='1001'?'审核通过(未上墙)':(changStatus=='2000'?'审核拒绝':changStatus == '0000'?'等待审核':changStatus == '1000'?'上墙':changStatus == ''?'全部状态':'')}}<span class="caret"></span>
 						</button>
 					<ul class="dropdown-menu" style="min-width: 100px">
-						<li class="allstaTus" @click="changeStatus()">
+						<li class="allstaTus" @click="changeStatus('')">
 							<a>全部状态</a>
 						</li>
-						<li class="passstaTus" @click="changeStatus('1000')">
-							<a>审核通过</a>
+						<li class="passstaTus" @click="changeStatus('1001')">
+							<a>审核通过(未上墙)</a>
 						</li>
 						<li class="rejectstaTus" @click="changeStatus('2000')">
 							<a>审核拒绝</a>
@@ -63,7 +63,7 @@
 						<li class="awaitstaTus" @click="changeStatus('0000')">
 							<a>审核等待</a>
 						</li>
-						<li class="onwall" @click="changeStatus('1001')">
+						<li class="onwall" @click="changeStatus('1000')">
 							<a>上墙</a>
 						</li>
 					</ul>
@@ -92,7 +92,7 @@
 						<th @click="Examine(items.id)">{{items.mobile}}</th>
 						<th class="red">{{items.regDate}}</th>
 						<th class="red">{{items.lastGeo.time}}</th>
-						<th class="red">{{items.status=='1000'?'审核通过':(items.status=='2000'?'审核拒绝':items.status == '0000'?'未审核':'')}}</th>
+						<th class="red">{{items.status=='1001'?'审核通过(未上墙)':(items.status=='2000'?'审核拒绝':items.status == '0000'?'等待审核':items.status == '1000'?'上墙':'')}}</th>
 						<th>
 							<span class="blue" @click="banned">封禁</span>
 							<span class="blue look" @click="Examine(items.id)">查看</span>
@@ -113,20 +113,20 @@
 	import examine from "./tabChild/examine.vue"
 	export default {
 
-		name: "home",
+		name: "Home",
 		data() {
 			return {
-				users: [{
+				users: [
+				{
 						nickName: 'zik',
 						mobile: '15892333333',
-						status: '0',
+						status: '1000',
 						id: '644649164626161',
 						gender: 'm',
 						regDate: '21018',
 						lastGeo: {
 							time: '201888'
 						},
-						//
 					},
 					//				{
 					//					nickName: 'zik',
@@ -143,33 +143,28 @@
 				],
 				mobilee: '',
 				totalElements: '',
-				statuss: '审核状态',
-				genderr: '性别',
 				noData: false,
 				searchnickname: '',
 				searchphone: '',
 				changgender: '',
 				changStatus: '',
 				index: '1',
-				examinEE: '',
 
 			}
 		},
-		mounted: function() {
-			this.getData();
+		mounted: function() {//开局一个钩子，数据全靠调取
+			this.getData();//执行调取数据的方法
 		},
 		methods: {
 			banned() { //封禁操作
 				console.log("你被封了!")
 			},
-			Examine: function(id) {
+			Examine: function(id) {//查看详情页
 				var that = this
-				that.examinEE = id
-				console.log(that.examinEE)
-				this.$router.push({
+				that.$router.push({
 					path: '/examine',
 					query: {
-						examin: that.examinEE
+						examin: id
 					}
 				})
 			},
@@ -178,13 +173,6 @@
 				that.index = 1
 				console.log(Gen)
 				that.changgender = Gen
-				if(Gen == undefined) {
-					that.genderr = '全部状态'
-				} else if(Gen == 'm') {
-					that.genderr = '男性用户'
-				} else if(Gen == 'f') {
-					that.genderr = '女性用户'
-				}
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByCondition",
@@ -220,17 +208,6 @@
 				var that = this
 				that.index = 1
 				that.changStatus = Sta
-				if(Sta == undefined) {
-					that.statuss = '全部状态'
-				} else if(Sta == '0000') {
-					that.statuss = '审核等待'
-				} else if(Sta == '1000') {
-					that.statuss = '审核通过'
-				} else if(Sta == '2000') {
-					that.statuss = '审核拒绝'
-				} else if(Sta == '1001') {
-					that.statuss = '上墙'
-				}
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByCondition",
@@ -262,7 +239,6 @@
 			},
 			getData: function() { //页面开始刷新第一版数据在上面的mounted调用
 				var that = this
-				//				that.index=1
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByCondition",
@@ -325,7 +301,7 @@
 				let that = this;
 				that.index = 1
 				that.changStatus = ''
-				that.changgender = ''
+				that.changgender = ''//将组合查询制空，只查询手机号，下面一样只查询昵称
 				if(that.mobilee == '') {
 					alert("输入不能为空!")
 				} else {
@@ -400,7 +376,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	#conn span {
 		color: #fff;
 		display: list-item;
@@ -434,7 +410,7 @@
 	.staTusclick {
 		float: left;
 		margin-top: 20px;
-		margin-left: 20px;
+		margin-left: 10px;
 	}
 	
 	.usermanagement {

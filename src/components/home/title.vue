@@ -32,6 +32,11 @@ export default {
 </script>
 
 <style scoped>
+	.hello{
+		position: fixed;
+	 width: 100%;
+	 z-index: 5;
+	}
 	.navbar{
 		border: none;
 		border-radius: 0;

@@ -54,7 +54,7 @@
 
 			</div>
 		</div>
-		<router-view style='margin-left: 10%;'></router-view>
+		<router-view style='margin-left: 10%;margin-top: 52px;'></router-view>
 	</div>
 </template>
 
@@ -63,15 +63,11 @@
 
 	import '../assets/css/jquery-accordion-menu.css'
 	import '../assets/js/jquery-accordion-menu.js'
-	import registerPending from './home/registerPending'
-	import InformationPending from './home/InformationPending'
-import Title from './home/title'
+	import Title from './home/title'
 	export default {
 		inject: ["reload"],
 		name: "homepage",
 		components: {
-			registerPending,
-			InformationPending,
 			Title
 		},
 		data() {
@@ -81,13 +77,11 @@ import Title from './home/title'
 		},
 		mounted: function() {
 
-			this.go();
-			//			this.reload();
+			this.go()
 
 		},
 		methods: {
 			go: function() {
-				this.$router.push("/userManagement");
 				jQuery(document).ready(function() {
 					jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
 
@@ -121,6 +115,7 @@ import Title from './home/title'
 		width: 10%;
 		position: fixed;
 		height: 100%;
+		margin-top: 52px;
 		background: #414956;
 		overflow-y: auto;
 	}

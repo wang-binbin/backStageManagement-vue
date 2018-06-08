@@ -6,6 +6,9 @@ import title from '@/components/home/title'
 import examine from '@/components/home/tabChild/examine'
 import registerPending from '@/components/home/registerPending'
 import userManagement from '@/components/home/userManagement'
+import registerPendinExamine from '@/components/home/tabChild/registerPendinExamine'
+import pass from '@/components/home/tabChild/Status/pass'
+import refuse from '@/components/home/tabChild/passStatus/refuse'
 import InformationPending from '@/components/home/InformationPending'
 import verified from '@/components/home/verified'
 import home from '@/components/home'
@@ -16,48 +19,58 @@ Vue.use(VueResource)
 export default new Router({
 	routes: [{
 			path: '/',
-			name:'login',
+			name: 'login',
 			name: "login",
 			component: login
 		},
 		{
 			path: '/home',
-			name:'home',
+			name: 'home',
 			component: home,
-			children: [ {
+			children: [{
 					path: "/",
-					name:'userManagement',
+					name: 'userManagement',
 					component: userManagement,
-					children:[{
-					path: "/",
-					component: examine,
-					name:'examine',
-					},
-					{
-					path: "/examine",
-					name:'examine',
-					component: examine,
-					},
-					]
+					children: [{
+						path: "/examine",
+						name: 'examine',
+						component: examine,
+					}, ]
 				},
 				{
 					path: "/userManagement",
-					name:'userManagement',
+					name: 'userManagement',
 					component: userManagement,
 				},
 				{
 					path: "/registerPending",
-					name:'registerPending',
+					name: 'registerPending',
 					component: registerPending,
+					children: [{
+						path: "/registerPendinExamine",
+						name: 'registerPendinExamine',
+						component: registerPendinExamine,
+						children: [{
+								path: "/pass",
+								name: 'pass',
+								component: pass,
+							},
+							{
+								path: "/refuse",
+								name: 'refuse',
+								component: refuse,
+							},
+						]
+					}, ]
 				},
 				{
 					path: "/verified",
-					name:'verified',
+					name: 'verified',
 					component: verified,
 				},
 				{
 					path: "/InformationPending",
-					name:'InformationPending',
+					name: 'InformationPending',
 					component: InformationPending,
 				},
 
