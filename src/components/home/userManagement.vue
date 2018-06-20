@@ -73,9 +73,10 @@
 		</div>
 		<!--表格-->
 		<div class="biaoge" style="margin-top: 0px;">
-			<table class="table table2" style="background: none;">
+			<table class="table table2">
 				<thead>
-					<tr>
+					<tr class="tabhead">
+						<th>序号</th>
 						<th>昵称</th>
 						<th>性别</th>
 						<th>手机号</th>
@@ -86,12 +87,13 @@
 					</tr>
 				</thead>
 				<tbody id="conn">
-					<tr v-for="items in users" :key="" :data-id="items.id">
-						<th @click="Examine(items.id)">{{items.nickName}}</th>
+					<tr v-for="(items,index) in users" :key="" :data-id="items.id">
+						<th>{{index+1}}</th>
+						<th class="cursor" @click="Examine(items.id)">{{items.nickName}}</th>
 						<th class="red">{{items.gender=='m'?'男':(items.gender=='f'?'女':'')}}</th>
-						<th @click="Examine(items.id)">{{items.mobile}}</th>
-						<th class="red">{{items.regDate}}</th>
-						<th class="red">{{items.lastGeo.time}}</th>
+						<th class="cursor" @click="Examine(items.id)">{{items.mobile}}</th>
+						<th class="">{{items.regDate}}</th>
+						<th class="">{{items.lastGeo.time}}</th>
 						<th class="red">{{items.status=='1001'?'审核通过(未上墙)':(items.status=='2000'?'审核拒绝':items.status == '0000'?'等待审核':items.status == '1000'?'上墙':'')}}</th>
 						<th>
 							<span class="blue" @click="banned">封禁</span>
@@ -103,8 +105,11 @@
 			</table>
 			<p class="clee"></p>
 		</div>
-		<v-pagination @change="loadPage" :total="parseInt(totalElements)" :value="parseInt(index)" :show-total="showTotal" show-quick-jumper>
-		</v-pagination>
+		<div class="paging">
+
+			<v-pagination @change="loadPage" :total="parseInt(totalElements)" :value="parseInt(index)" :show-total="showTotal" show-quick-jumper>
+			</v-pagination>
+		</div>
 		<router-view style=''></router-view>
 	</div>
 </template>
@@ -116,31 +121,7 @@
 		name: "Home",
 		data() {
 			return {
-				users: [
-				{
-						nickName: 'zik',
-						mobile: '15892333333',
-						status: '1000',
-						id: '644649164626161',
-						gender: 'm',
-						regDate: '21018',
-						lastGeo: {
-							time: '201888'
-						},
-					},
-					//				{
-					//					nickName: 'zik',
-					//					mobile: '15892333333',
-					//					status: '0',
-					//					id:'asfagsgag',
-					//					gender: 'm',
-					//					regDate: '21018',
-					//					lastGeo: {
-					//						time: '201888'
-					//					},
-					////
-					//				}
-				],
+				users: [],
 				mobilee: '',
 				totalElements: '',
 				noData: false,
@@ -152,14 +133,14 @@
 
 			}
 		},
-		mounted: function() {//开局一个钩子，数据全靠调取
-			this.getData();//执行调取数据的方法
+		mounted: function() { //开局一个钩子，数据全靠调取
+			this.getData(); //执行调取数据的方法
 		},
 		methods: {
 			banned() { //封禁操作
 				console.log("你被封了!")
 			},
-			Examine: function(id) {//查看详情页
+			Examine: function(id) { //查看详情页
 				var that = this
 				that.$router.push({
 					path: '/examine',
@@ -186,7 +167,12 @@
 					dataType: "json",
 					success: function(result) {
 						console.log(result);
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
+						}else {
 						if(result.status == '0000') {
+
 							if(result.data.content[0] == null) {
 								that.noData = true
 								that.users = []
@@ -200,13 +186,13 @@
 
 						} else {
 							alert(result.data.msg)
-						}
+						}}
 					}
 				})
 			},
 			changeStatus: function(Sta) { //更改状态获取数据
 				var that = this
-				that.index = 1
+
 				that.changStatus = Sta
 				$.ajax({
 					type: "post",
@@ -221,7 +207,13 @@
 					dataType: "json",
 					success: function(result) {
 						console.log(result);
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
+						}else {
 						if(result.status == '0000') {
+
+							that.index = 1
 							if(result.data.content[0] == null) {
 								that.noData = true
 								that.users = []
@@ -233,7 +225,7 @@
 								that.totalElements = result.data.totalElements
 							}
 
-						}
+						}}
 					}
 				})
 			},
@@ -249,8 +241,13 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						console.log(result);
+						that.index = 1
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
+						}else {
 						if(result.status == '0000') {
+
 							if(result.data.content[0] == null) {
 								that.noData = true
 								that.users = []
@@ -261,13 +258,12 @@
 								that.users = result.data.content
 								that.totalElements = result.data.totalElements
 							}
-						}
+						}}
 					}
 				})
 			},
 			loadPage(pageIndex) { //分液器获取数据
 				var that = this;
-				that.index = 1
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByCondition",
@@ -283,13 +279,18 @@
 					dataType: "json",
 					success: function(result) {
 						console.log(result);
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
+						}else {
 						if(result.status == "0000") {
+
 							that.users = result.data.content
 							that.totalElements = result.data.totalElements
 						} else {
 							alert(result.msg);
 
-						}
+						}}
 					}
 				})
 				console.log('请求' + pageIndex + "页");
@@ -301,7 +302,7 @@
 				let that = this;
 				that.index = 1
 				that.changStatus = ''
-				that.changgender = ''//将组合查询制空，只查询手机号，下面一样只查询昵称
+				that.changgender = '' //将组合查询制空，只查询手机号，下面一样只查询昵称
 				if(that.mobilee == '') {
 					alert("输入不能为空!")
 				} else {
@@ -316,7 +317,13 @@
 						},
 						dataType: "json",
 						success: function(result) {
+							if(result.msg == '未登录') {
+								alert(result.msg)
+								that.$router.push('/')
+							}else {
 							if(result.status == '0000') {
+
+								that.index = 1
 								if(result.data.content[0] == null) {
 									that.noData = true
 									that.users = []
@@ -329,7 +336,7 @@
 								}
 							} else {
 								alert(result.msg);
-							}
+							}}
 						}
 					})
 				}
@@ -353,7 +360,13 @@
 						},
 						dataType: "json",
 						success: function(result) {
+							if(result.msg == '未登录') {
+								alert(result.msg)
+								that.$router.push('/')
+							}else {
 							if(result.status == '0000') {
+
+								that.index = 1
 								that.mobilee = ''
 								if(result.data.content[0] == null) {
 									that.noData = true
@@ -367,7 +380,7 @@
 								}
 							} else {
 								alert(result.msg);
-							}
+							}}
 						}
 					})
 				}
@@ -379,17 +392,15 @@
 <style scoped>
 	#conn span {
 		color: #fff;
-		display: list-item;
 		width: 50px;
+		padding: 3px 10px;
 		border-radius: 10px;
 		list-style: none;
-		float: left;
-		background: #fb6643;
+		background: #F28879;
 	}
 	
 	#conn .look {
-		margin-left: 20px;
-		background: #50a8f9;
+		background: #7ABFEF;
 	}
 	
 	.selected {
@@ -419,8 +430,7 @@
 		line-height: 60px;
 		font-size: 20px;
 		text-indent: 1.5em;
-		border-top: 1px solid #c5c4c5;
-		border-bottom: 1px solid #c5c4c5;
+		margin-top: 50px;
 	}
 	
 	.sousuo {
@@ -429,29 +439,28 @@
 		background: none;
 	}
 	
+	.table>thead>tr>th {
+		border-bottom: none;
+	}
+	
 	.row {
 		margin-left: 0;
 		margin-right: 0;
+		background: #f7f7f7;
+		border: 1px solid rgba(229, 229, 229, 1);
+		margin-bottom: 30px;
 	}
 	
-	.btn-group {}
-	
-	.table>tbody>tr>td,
-	.table>tbody>tr>th,
-	.table>tfoot>tr>td,
-	.table>tfoot>tr>th,
-	.table>thead>tr>td,
-	.table>thead>tr>th {
-		border-left: 1px solid #ddd;
-		border-top: none;
-	}
-	
-	.table2 tr {
+	#conn tr {
 		border-top: 1px solid #ddd;
 		border-bottom: 1px solid #ddd;
 	}
 	
 	.blue {
+		cursor: pointer;
+	}
+	
+	.cursor {
 		cursor: pointer;
 	}
 	
@@ -461,5 +470,33 @@
 	
 	#home {
 		background: none;
+	}
+	
+	.tabhead {
+		background: #f7f7f7;
+		color: rgba(145, 145, 145, 1);
+		border: 1px solid rgba(229, 229, 229, 1);
+	}
+	
+	.table {
+		width: 96%;
+		margin: 0 2%;
+		background: #fff;
+	}
+	
+	.tab-pane {
+		width: 90%;
+		background: #fff;
+		border-left: none;
+	}
+	
+	.paging {
+		width: 96%;
+		margin: 0 auto;
+		margin-top: 20px;
+		background: #f7f7f7;
+		color: rgba(145, 145, 145, 1);
+		border: 1px solid rgba(229, 229, 229, 1);
+		padding: 15px 10px;
 	}
 </style>

@@ -3,14 +3,20 @@ import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import app from '@/App'
 import title from '@/components/home/title'
+import CreateTemplate from '@/components/home/template/CreateTemplate'
+import templateList from '@/components/home/templateList'
+import feedbackcontent from '@/components/home/feedbackChild/feedbackcontent'
+import feedback from '@/components/home/feedback'
 import examine from '@/components/home/tabChild/examine'
 import registerPending from '@/components/home/registerPending'
 import userManagement from '@/components/home/userManagement'
 import registerPendinExamine from '@/components/home/tabChild/registerPendinExamine'
 import pass from '@/components/home/tabChild/Status/pass'
-import refuse from '@/components/home/tabChild/passStatus/refuse'
+import refuse from '@/components/home/tabChild/Status/refuse'
+import passI from '@/components/home/tabChild/Information/pass'
+import refuseI from '@/components/home/tabChild/Information/refuse'
 import InformationPending from '@/components/home/InformationPending'
-import verified from '@/components/home/verified'
+import InformationPendingE from '@/components/home/tabChild/InformationPendingE'
 import home from '@/components/home'
 import login from '@/components/login'
 
@@ -20,9 +26,9 @@ export default new Router({
 	routes: [{
 			path: '/',
 			name: 'login',
-			name: "login",
 			component: login
 		},
+
 		{
 			path: '/home',
 			name: 'home',
@@ -64,14 +70,48 @@ export default new Router({
 					}, ]
 				},
 				{
-					path: "/verified",
-					name: 'verified',
-					component: verified,
-				},
-				{
 					path: "/InformationPending",
 					name: 'InformationPending',
 					component: InformationPending,
+					children: [{
+						path: "/InformationPendingE",
+						name: 'InformationPendingE',
+						component: InformationPendingE,
+						children: [{
+								path: "/passI",
+								name: 'passI',
+								component: passI,
+							},
+							{
+								path: "/refuseI",
+								name: 'refuseI',
+								component: refuseI,
+							},
+						]
+					}, ]
+				},
+
+				{
+					path: "/templateList",
+					name: 'templateList',
+					component: templateList,
+					children: [{
+						path: "/CreateTemplate",
+						name: 'CreateTemplate',
+						component: CreateTemplate,
+					}, ]
+
+				},
+				{
+					path: "/feedback",
+					name: 'feedback',
+					component: feedback,
+					children: [{
+						path: "/feedbackcontent",
+						name: 'feedbackcontent',
+						component: feedbackcontent,
+					}, ]
+
 				},
 
 			]

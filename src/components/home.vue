@@ -26,35 +26,26 @@
 							<li><a href="#">Fonts </a></li>
 						</ul>
 					</li>-->
-							<li>
-								<a href="#">审核通过</a>
-							</li>
-							<li>
-								<a href="#">审核拒绝</a>
-							</li>
+		
 						</ul>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-suitcase"></i>Portf</a>
+						<a href="#"><i class="fa fa-suitcase"></i>消息推送</a>
 						<ul class="submenu">
+
 							<li>
-								<a href="#">Web D</a>
-							</li>
-							<!--<li><a href="#">Graphics </a><span class="jquery-accordion-menu-label">10 </span></li>-->
-							<li>
-								<a href="#">Photos</a>
+								<router-link to="/templateList">拒绝模板</router-link>
 							</li>
 							<li>
-								<a href="#">Program</a>
+								<router-link to="/feedback">意见反馈</router-link>
 							</li>
 						</ul>
 					</li>
-
 				</ul>
 
 			</div>
 		</div>
-		<router-view style='margin-left: 10%;margin-top: 52px;'></router-view>
+		<router-view style='margin-left: 10%;'></router-view>
 	</div>
 </template>
 
@@ -115,7 +106,7 @@
 		width: 10%;
 		position: fixed;
 		height: 100%;
-		margin-top: 52px;
+		margin-top: 50px;
 		background: #414956;
 		overflow-y: auto;
 	}

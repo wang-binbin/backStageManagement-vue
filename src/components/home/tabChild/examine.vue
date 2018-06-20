@@ -2,13 +2,13 @@
 	<div class="examine">
 		<div class="examineCon">
 			<div class="tielee">用户信息
-				<p class="cancel" @click="cancel">X</p>
+				<p class="cancel" @click="cancel"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/close.png" /></p>
 			</div>
 			<div class="photo">
 				<ul>
 					<li v-for="items in photoArry" :key=''><img :src="items.pic"></li>
 					<li v-for="item in photoArryRedPack" :key=''><img :src="item.redPkgPic">
-					<img style="position: absolute;top: 0px;left: 0px;width: 20%;height: 20%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/redbao.png" />
+						<img style="position: absolute;top: 0px;left: 0px;width: 15%;height: 8%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/redbao.png" />
 					</li>
 					<p style="clear: both;"></p>
 				</ul>
@@ -20,11 +20,11 @@
 					<li>年龄:{{age}}</li>
 				</ul>
 				<ul>
-					<li>个人信息</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/signature.png">个性签名:{{introduction==''?"未填写":introduction}}</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/industry.png">行业:{{industry==''?"未填写":industry}}</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/education.png">学历:{{education==''?"未填写":education}}</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/home.png">常去地点:{{place==''?"未填写":place}}</li>
+					<li style="font-size: 20px;">个人信息</li>
+					<li class="signature"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/signature.png">个性签名:{{introduction==''?"未填写":introduction==null?"未填写":introduction}}</li>
+					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/industry.png">行业:{{industry==''?"未填写":industry==null?"未填写":industry}}</li>
+					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/education.png">学历:{{education==''?"未填写":education==null?"未填写":education}}</li>
+					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/home.png">常去地点:{{place==''?"未填写":place==null?"未填写":place}}</li>
 				</ul>
 
 			</div>
@@ -42,7 +42,7 @@
 					<li class="hand" @click="downFrame">下架</li>
 					<p style="clear: both;"></p>
 				</ul>
-				<ul class="audit" v-else="status=='2000'">
+				<ul class="audit" v-else-if="status=='2000'">
 					<li class="hand" style="margin-left: 365px;" @click="revocation">撤销审核</li>
 					<p style="clear: both;"></p>
 				</ul>
@@ -68,7 +68,7 @@
 				education: '',
 				place: '',
 				photoArryRedPack: [],
-				photoArry:[],
+				photoArry: [],
 				content: []
 			}
 		},
@@ -88,58 +88,66 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						if(result.status == '0000') {
-							that.introduction = result.data.userInfo.introduction
-							that.industry = result.data.userInfo.industry
-							that.education = result.data.userInfo.education
-							that.place = result.data.userInfo.place
-							console.log(that.introduction+that.industry)
-							that.status = result.data.userInfo.status
-							that.nickName = result.data.userInfo.nickName
-							that.age = result.data.userInfo.age
-							that.gerden = result.data.userInfo.gender
-							for(var i = 0; i < result.data.userInfo.mediaList.length; i++) {
-								if(result.data.userInfo.mediaList[i].type == 'redPkgPic') {
-									$.ajax({ //在oss获取图片如果是红包照片存到photoArryRedPack
-									type: "post",
-									url: "/admin/getPicURL",
-									async: false,
-									data: {
-										ossRef: result.data.userInfo.mediaList[i].ossRef
-									},
-									dataType: "json",
-									success: function(result) {
-										if(result.status == '0000') {
-										that.photoArryRedPack.push({ 'redPkgPic':result.data.url})
-										} else {
-											alert(result.msg)
-										}
-									}
-								})
-								} else{
-										$.ajax({ //在oss获取图片如果不是红包照片photoArryRedPack
-									type: "post",
-									url: "/admin/getPicURL",
-									async: false,
-									data: {
-										ossRef: result.data.userInfo.mediaList[i].ossRef
-									},
-									dataType: "json",
-									success: function(result) {
-										if(result.status == '0000') {
-											that.photoArry.push({"pic":result.data.url})
-										} else {
-											alert(result.msg)
-										}
-									}
-								})
-								}
-								
-								
-								
-							}
-						} else {
+						if(result.msg == '未登录') {
 							alert(result.msg)
+							that.$router.push('/')
+						} else {
+							if(result.status == '0000') {
+
+								that.introduction = result.data.userInfo.introduction
+								that.industry = result.data.userInfo.industry
+								that.education = result.data.userInfo.education
+								that.place = result.data.userInfo.place
+								console.log(that.introduction + ',121' + that.industry)
+								that.status = result.data.userInfo.status
+								that.nickName = result.data.userInfo.nickName
+								that.age = result.data.userInfo.age
+								that.gerden = result.data.userInfo.gender
+								for(var i = 0; i < result.data.userInfo.mediaList.length; i++) {
+									if(result.data.userInfo.mediaList[i].type == 'redPkgPic') {
+										$.ajax({ //在oss获取图片如果是红包照片存到photoArryRedPack
+											type: "post",
+											url: "/admin/getPicURL",
+											async: false,
+											data: {
+												ossRef: result.data.userInfo.mediaList[i].ossRef
+											},
+											dataType: "json",
+											success: function(result) {
+												if(result.status == '0000') {
+													that.photoArryRedPack.push({
+														'redPkgPic': result.data.url
+													})
+												} else {
+													alert(result.msg)
+												}
+											}
+										})
+									} else {
+										$.ajax({ //在oss获取图片如果不是红包照片photoArryRedPack
+											type: "post",
+											url: "/admin/getPicURL",
+											async: false,
+											data: {
+												ossRef: result.data.userInfo.mediaList[i].ossRef
+											},
+											dataType: "json",
+											success: function(result) {
+												if(result.status == '0000') {
+													that.photoArry.push({
+														"pic": result.data.url
+													})
+												} else {
+													alert(result.msg)
+												}
+											}
+										})
+									}
+
+								}
+							} else {
+								alert(result.msg)
+							}
 						}
 					}
 				})
@@ -160,11 +168,17 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						if(result.status == '0000') {
-							that.$router.push('/userManagement')
-							that.reload();
-						} else {
+						if(result.msg == '未登录') {
 							alert(result.msg)
+							that.$router.push('/')
+						} else {
+							if(result.status == '0000') {
+
+								that.$router.push('/userManagement')
+								that.reload();
+							} else {
+								alert(result.msg)
+							}
 						}
 					}
 				})
@@ -183,11 +197,17 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						if(result.status == '0000') {
-							that.$router.push('/userManagement')
-							that.reload();
-						} else {
+						if(result.msg == '未登录') {
 							alert(result.msg)
+							that.$router.push('/')
+						} else {
+							if(result.status == '0000') {
+
+								that.$router.push('/userManagement')
+								that.reload();
+							} else {
+								alert(result.msg)
+							}
 						}
 					}
 				})
@@ -206,11 +226,17 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						if(result.status == '0000') {
-							that.$router.push('/userManagement')
-							that.reload();
-						} else {
+						if(result.msg == '未登录') {
 							alert(result.msg)
+							that.$router.push('/')
+						} else {
+							if(result.status == '0000') {
+
+								that.$router.push('/userManagement')
+								that.reload();
+							} else {
+								alert(result.msg)
+							}
 						}
 					}
 				})
@@ -230,6 +256,11 @@
 	
 	.audit li {
 		float: left;
+	}
+	
+	.signature {
+		overflow-y: auto;
+		height: 90px;
 	}
 	
 	.audit li:nth-child(1) {
@@ -262,7 +293,7 @@
 	}
 	
 	.particularss ul:nth-child(2) {
-		margin-top: 60px;
+		/*margin-top: 60px;*/
 	}
 	
 	.particularss {
@@ -300,6 +331,7 @@
 	}
 	
 	.cancel {
+		height: 50px;
 		cursor: pointer;
 		font-size: 26px;
 		width: 60px;
@@ -309,6 +341,12 @@
 		position: absolute;
 		right: 0px;
 		top: 0;
+	}
+	
+	.cancel img {
+		width: 50%;
+		margin-left: 15px;
+		margin-top: 10px;
 	}
 	
 	.tielee {

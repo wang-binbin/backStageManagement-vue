@@ -3,13 +3,13 @@
 	<div class="examine registerPendinExamine">
 		<div class="examineCon">
 			<div class="tielee">注册审核
-				<p class="cancel" @click="cancel">X</p>
+				<p class="cancel" @click="cancel"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/close.png"/></p>
 			</div>
 			<div class="photo">
 				<ul>
 					<li v-for="items in photoArry" :key=''><img :src="items.pic"></li>
 					<li v-for="item in photoArryRedPack" :key=''><img :src="item.redPkgPic">
-						<img style="position: absolute;top: 0px;left: 0px;width: 20%;height: 20%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/redbao.png" />
+						<img style="position: absolute;top: 0px;left: 0px;width:15%;height: 8%;" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/redbao.png" />
 					</li>
 					<p style="clear: both;"></p>
 				</ul>
@@ -21,11 +21,11 @@
 					<li>年龄:{{age}}</li>
 				</ul>
 				<ul>
-					<li>个人信息</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/signature.png">个性签名:{{introduction==''?"未填写":introduction}}</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/industry.png">行业:{{industry==''?"未填写":industry}}</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/education.png">学历:{{education==''?"未填写":education}}</li>
-					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/home.png">常去地点:{{place==''?"未填写":place}}</li>
+					<li style="font-size: 20px;">个人信息</li>
+					<li class="signature"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/signature.png">个性签名:{{introduction==''?"未填写":introduction==null?"未填写":introduction}}</li>
+					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/industry.png">行业:{{industry==''?"未填写":industry==null?"未填写":industry}}</li>
+					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/education.png">学历:{{education==''?"未填写":education==null?"未填写":education}}</li>
+					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/home.png">常去地点:{{place==''?"未填写":place==null?"未填写":place}}</li>
 				</ul>
 
 			</div>
@@ -35,8 +35,9 @@
 				</ul>
 
 				<ul class="audit" v-if="status=='0000'">
-					<li class="hand" @click="auditPass">审核通过</li>
 					<li class="hand" @click="auditRefuse">审核拒绝</li>
+					<li class="hand" @click="auditPass">审核通过</li>
+					
 					<p style="clear: both;"></p>
 				</ul>
 
@@ -69,9 +70,9 @@
 			this.getExamine();
 		},
 		methods: {
-			getExamine: function() {
+			getExamine: function() {//通过id拿到详情数据
 				var that = this;
-				$.ajax({ //通过id拿到详情数据
+				$.ajax({ 
 					type: "post",
 					url: "/user/getUserInfo",
 					async: false,
@@ -80,7 +81,12 @@
 					},
 					dataType: "json",
 					success: function(result) {
+							if (result.msg=='未登录') {
+								alert(result.msg)
+								that.$router.push('/')
+							}else {
 						if(result.status == '0000') {
+							 
 							that.introduction = result.data.userInfo.introduction
 							that.industry = result.data.userInfo.industry
 							that.education = result.data.userInfo.education
@@ -134,7 +140,7 @@
 							}
 						} else {
 							alert(result.msg)
-						}
+						}}
 					}
 				})
 			},
@@ -150,25 +156,6 @@
 						registerPendinExamine: that.$route.query.registerPendinExamine
 					}
 				})
-//				var that = this
-//				$.ajax({ //审核通过
-//					type: "post",
-//					url: "/admin/updateCheckStatus",
-//					async: false,
-//					data: {
-//						userId: that.$route.query.registerPendinExamine,
-//						status: '1000'
-//					},
-//					dataType: "json",
-//					success: function(result) {
-//						if(result.status == '0000') {
-//							that.$router.push('/userManagement')
-//							that.reload();
-//						} else {
-//							alert(result.msg)
-//						}
-//					}
-//				})
 			},
 			auditRefuse: function() {//跳转拒绝页面
 				var that = this
@@ -178,24 +165,6 @@
 						registerPendinExamine: that.$route.query.registerPendinExamine
 					}
 				})
-//				$.ajax({ 
-//					type: "post",
-//					url: "/admin/updateCheckStatus",
-//					async: false,
-//					data: {
-//						userId: that.$route.query.examin,
-//						status: '1000'
-//					},
-//					dataType: "json",
-//					success: function(result) {
-//						if(result.status == '0000') {
-//							that.$router.push('/userManagement')
-//							that.reload();
-//						} else {
-//							alert(result.msg)
-//						}
-//					}
-//				})
 			},
 		},
 	}
@@ -210,14 +179,20 @@
 		margin-top: 50px;
 	}
 	
+		.signature{
+	overflow-y: auto;
+	height: 90px;
+	}
 	.audit li {
 		float: left;
 		width: 150px;
-		border: 1px solid #9D9D9D;
+		border-radius: 5px;
+		background: #7ABFEF ;
 		text-align: center;
 	}
-	
+
 	.audit li:nth-child(1) {
+		background: #F28879 ;
 		margin-left: 234px;
 		margin-right: 50px;
 	}
@@ -241,7 +216,7 @@
 	}
 	
 	.particularss ul:nth-child(2) {
-		margin-top: 60px;
+		/*margin-top: 60px;*/
 	}
 	
 	.particularss {
@@ -288,6 +263,7 @@
 	}
 	
 	.cancel {
+		height: 50px;
 		cursor: pointer;
 		font-size: 26px;
 		width: 60px;
@@ -298,9 +274,15 @@
 		right: 0px;
 		top: 0;
 	}
+	.cancel img{
+		    width: 50%;
+    margin-left: 15px;
+    margin-top: 10px;
+	}
 	
 	.examine {
 		position: fixed;
+		z-index: 2;
 		width: 100%;
 		top: 0;
 		background: rgba(0, 0, 0, 0.3);

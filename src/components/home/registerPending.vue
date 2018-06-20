@@ -3,7 +3,7 @@
 		<!--<search v-on:PagingData1="PagingData1" v-on:PagingData2="PagingData2" v-on:PagingData3="PagingData3" v-on:mobile="mobile" />-->
 
 		<div class="usermanagement">
-			用户管理
+			注册待审
 		</div>
 		<div class="row">
 			<div class="wid">
@@ -22,7 +22,7 @@
 					</ul>
 				</div>
 
-				<div class="input-group" style="z-index: -1;">
+				<div class="input-group">
 					<input type="tel" class="form-control" v-model="mobilee" placeholder="搜索用户手机号/或昵称">
 				</div>
 
@@ -48,7 +48,8 @@
 		<div class="biaoge" style="margin-top: 0px;">
 			<table class="table table2" style="background: none;">
 				<thead>
-					<tr>
+					<tr class="tabhead">
+						<th>序号</th>
 						<th>昵称</th>
 						<th>性别</th>
 						<th>手机号</th>
@@ -59,12 +60,13 @@
 					</tr>
 				</thead>
 				<tbody id="conn">
-					<tr v-for="items in users" :key="" :data-id="items.id">
-						<th @click="Examine(items.id)">{{items.nickName}}</th>
+					<tr v-for="(items,index) in users" :key="" :data-id="items.id">
+						<th>{{index+1}}</th>
+						<th class="cursor" @click="Examine(items.id)">{{items.nickName}}</th>
 						<th class="red">{{items.gender=='m'?'男':(items.gender=='f'?'女':'')}}</th>
-						<th @click="Examine(items.id)">{{items.mobile}}</th>
-						<th class="red">{{items.regDate}}</th>
-						<th class="red">{{items.lastGeo.time}}</th>
+						<th class="cursor" @click="Examine(items.id)">{{items.mobile}}</th>
+						<th class="">{{items.regDate}}</th>
+						<th class="">{{items.lastGeo.time}}</th>
 						<th class="red">{{items.status=='1001'?'审核通过(未上墙)':(items.status=='2000'?'审核拒绝':items.status == '0000'?'等待审核':items.status == '1000'?'上墙':'')}}</th>
 						<th>
 							<span class="blue look" @click="Examine(items.id)">查看</span>
@@ -75,8 +77,10 @@
 			</table>
 			<p class="clee"></p>
 		</div>
-		<v-pagination @change="loadPage" :total="parseInt(totalElements)" :value="parseInt(index)" :show-total="showTotal" show-quick-jumper>
-		</v-pagination>
+		<div class="paging">
+			<v-pagination @change="loadPage" :total="parseInt(totalElements)" :value="parseInt(index)" :show-total="showTotal" show-quick-jumper>
+			</v-pagination>
+		</div>
 		<router-view style=''></router-view>
 	</div>
 </template>
@@ -88,26 +92,14 @@
 		name: "registerPending",
 		data() {
 			return {
-				users: [
-									{
-											nickName: 'zik',
-											mobile: '15892333333',
-											status: '1000',
-											id: '644649164626161',
-											gender: 'm',
-											regDate: '21018',
-											lastGeo: {
-												time: '201888'
-											},
-										},
-				],
+				users: [],
 				mobilee: '',
 				totalElements: '',
 				noData: false,
 				index: '1',
 				sortDirection: 'ASC',
-				Status :'0000',
-				infoCheckStatus:'1'
+				Status: '',
+				infoCheckStatus: '1'
 
 			}
 		},
@@ -128,7 +120,7 @@
 				var that = this
 				that.index = 1
 				that.Status = '0000'
-				that.infoCheckStatus='1'
+				that.infoCheckStatus = '1'
 				console.log(sort)
 				that.sortDirection = sort
 				$.ajax({
@@ -145,20 +137,26 @@
 					dataType: "json",
 					success: function(result) {
 						console.log(result);
-						if(result.status == '0000') {
-							if(result.data.content[0] == null) {
-								that.noData = true
-								that.users = []
-								that.totalElements = result.data.totalElements
-							} else {
-								that.mobilee = ''
-								that.noData = false
-								that.users = result.data.content
-								that.totalElements = result.data.totalElements
-							}
-
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
 						} else {
-							alert(result.data.msg)
+							if(result.status == '0000') {
+
+								if(result.data.content[0] == null) {
+									that.noData = true
+									that.users = []
+									that.totalElements = result.data.totalElements
+								} else {
+									that.mobilee = ''
+									that.noData = false
+									that.users = result.data.content
+									that.totalElements = result.data.totalElements
+								}
+
+							} else {
+								alert(result.data.msg)
+							}
 						}
 					}
 				})
@@ -166,7 +164,7 @@
 			getData: function() { //页面开始刷新第一版数据在上面的mounted调用
 				var that = this
 				that.Status = '0000'
-				that.infoCheckStatus='1'
+				that.infoCheckStatus = '1'
 				$.ajax({
 					type: "post",
 					url: "/user/getUsersListByCondition",
@@ -180,17 +178,23 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						console.log(result);
-						if(result.status == '0000') {
-							if(result.data.content[0] == null) {
-								that.noData = true
-								that.users = []
-								that.totalElements = result.data.totalElements
-							} else {
-								that.mobilee = ''
-								that.noData = false
-								that.users = result.data.content
-								that.totalElements = result.data.totalElements
+						//						console.log(result);
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
+						} else {
+							if(result.status == '0000') {
+
+								if(result.data.content[0] == null) {
+									that.noData = true
+									that.users = []
+									that.totalElements = result.data.totalElements
+								} else {
+									that.mobilee = ''
+									that.noData = false
+									that.users = result.data.content
+									that.totalElements = result.data.totalElements
+								}
 							}
 						}
 					}
@@ -214,13 +218,19 @@
 					},
 					dataType: "json",
 					success: function(result) {
-						console.log(result);
-						if(result.status == "0000") {
-							that.users = result.data.content
-							that.totalElements = result.data.totalElements
+						//						console.log(result);
+						if(result.msg == '未登录') {
+							alert(result.msg)
+							that.$router.push('/')
 						} else {
-							alert(result.msg);
+							if(result.status == "0000") {
 
+								that.users = result.data.content
+								that.totalElements = result.data.totalElements
+							} else {
+								alert(result.msg);
+
+							}
 						}
 					}
 				})
@@ -233,7 +243,7 @@
 				let that = this;
 				that.index = 1
 				that.Status = ''
-				that.infoCheckStatus=''
+				that.infoCheckStatus = ''
 				if(that.mobilee == '') {
 					alert("输入不能为空!")
 				} else {
@@ -248,19 +258,25 @@
 						},
 						dataType: "json",
 						success: function(result) {
-							if(result.status == '0000') {
-								if(result.data.content[0] == null) {
-									that.noData = true
-									that.users = []
-									that.totalElements = result.data.totalElements
-								} else {
-									that.mobilee = ''
-									that.noData = false
-									that.users = result.data.content
-									that.totalElements = result.data.totalElements
-								}
+							if(result.msg == '未登录') {
+								alert(result.msg)
+								that.$router.push('/')
 							} else {
-								alert(result.msg);
+								if(result.status == '0000') {
+
+									if(result.data.content[0] == null) {
+										that.noData = true
+										that.users = []
+										that.totalElements = result.data.totalElements
+									} else {
+										that.mobilee = ''
+										that.noData = false
+										that.users = result.data.content
+										that.totalElements = result.data.totalElements
+									}
+								} else {
+									alert(result.msg);
+								}
 							}
 						}
 					})
@@ -270,7 +286,7 @@
 				let that = this;
 				that.index = 1
 				that.Status = ''
-				that.infoCheckStatus=''
+				that.infoCheckStatus = ''
 				if(that.mobilee == '') {
 					alert("输入不能为空!")
 				} else {
@@ -285,20 +301,26 @@
 						},
 						dataType: "json",
 						success: function(result) {
-							if(result.status == '0000') {
-								that.mobilee = ''
-								if(result.data.content[0] == null) {
-									that.noData = true
-									that.users = []
-									that.totalElements = result.data.totalElements
-								} else {
-
-									that.noData = false
-									that.users = result.data.content
-									that.totalElements = result.data.totalElements
-								}
+							if(result.msg == '未登录') {
+								alert(result.msg)
+								that.$router.push('/')
 							} else {
-								alert(result.msg);
+								if(result.status == '0000') {
+
+									that.mobilee = ''
+									if(result.data.content[0] == null) {
+										that.noData = true
+										that.users = []
+										that.totalElements = result.data.totalElements
+									} else {
+
+										that.noData = false
+										that.users = result.data.content
+										that.totalElements = result.data.totalElements
+									}
+								} else {
+									alert(result.msg);
+								}
 							}
 						}
 					})
@@ -308,20 +330,14 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	#conn span {
 		color: #fff;
-		display: list-item;
+		padding: 3px 10px;
 		width: 50px;
 		border-radius: 10px;
 		list-style: none;
-		float: left;
-		background: #fb6643;
-	}
-	
-	#conn .look {
-		margin-left: 20px;
-		background: #50a8f9;
+		background: #7ABFEF;
 	}
 	
 	.selected {
@@ -351,8 +367,7 @@
 		line-height: 60px;
 		font-size: 20px;
 		text-indent: 1.5em;
-		border-top: 1px solid #c5c4c5;
-		border-bottom: 1px solid #c5c4c5;
+		margin-top: 50px;
 	}
 	
 	.sousuo {
@@ -364,26 +379,25 @@
 	.row {
 		margin-left: 0;
 		margin-right: 0;
+		background: #f7f7f7;
+		border: 1px solid rgba(229, 229, 229, 1);
+		margin-bottom: 30px;
 	}
 	
-	.btn-group {}
-	
-	.table>tbody>tr>td,
-	.table>tbody>tr>th,
-	.table>tfoot>tr>td,
-	.table>tfoot>tr>th,
-	.table>thead>tr>td,
-	.table>thead>tr>th {
-		border-left: 1px solid #ddd;
-		border-top: none;
-	}
-	
-	.table2 tr {
+	#conn tr {
 		border-top: 1px solid #ddd;
 		border-bottom: 1px solid #ddd;
 	}
 	
+	.table>thead>tr>th {
+		border-bottom: none;
+	}
+	
 	.blue {
+		cursor: pointer;
+	}
+	
+	.cursor {
 		cursor: pointer;
 	}
 	
@@ -391,7 +405,31 @@
 		text-align: center;
 	}
 	
-	#home {
-		background: none;
+	.tabhead {
+		background: #f7f7f7;
+		color: rgba(145, 145, 145, 1);
+		border: 1px solid rgba(229, 229, 229, 1);
+	}
+	
+	.table {
+		width: 96%;
+		margin: 0 2%;
+		background: #fff;
+	}
+	
+	.tab-pane {
+		width: 90%;
+		background: #fff;
+		border-left: none;
+	}
+	
+	.paging {
+		width: 96%;
+		margin: 0 auto;
+		margin-top: 20px;
+		background: #f7f7f7;
+		color: rgba(145, 145, 145, 1);
+		border: 1px solid rgba(229, 229, 229, 1);
+		padding: 15px 10px;
 	}
 </style>

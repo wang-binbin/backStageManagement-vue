@@ -21,7 +21,7 @@
 
 <script>
 	export default {
-		name: "pass",
+		name: "refuse",
 		inject: ["reload"],
 		data() {
 			return {
@@ -45,35 +45,36 @@
 								if (result.msg=='未登录') {
 								alert(result.msg)
 								that.$router.push('/')
-							}	else{
+							}
 							if(result.status == '0000') {
-							
+								 
 //								console.log(result)
 								that.values=result.data
 							} else {
 								alert(result.msg)
-							}}
+							}
 						}
 					})
 			},
 			cancel: function() {
 				var that = this //取消调回原来页面
-				that.$router.push('/registerPendinExamine')
+				that.$router.push('/InformationPendingE')
+//that.$router.go(-1)
 			},
 			establishTem: function() {
 				var that = this //去创建模板
 				that.$router.push('/CreateTemplate')
 			},
-			submit: function() { //跳转拒绝页面
+			submit: function() { 
 				var that = this
 				if(that.radio != '') { //不能为空
 					$.ajax({
 						type: "post",
-						url: "/admin/updateCheckStatus",
+						url: "/admin/auditUserInfoApply",
 						async: false,
 						data: {
 							userId: that.$route.query.registerPendinExamine,
-							status: '2000',
+							status: '2',
 							reasonId: that.radio
 						},
 						dataType: "json",
@@ -83,7 +84,7 @@
 								that.$router.push('/')
 							}	else{
 							if(result.status == '0000') {
-								that.$router.push('/registerPending')
+								that.$router.push('/InformationPending')
 								that.reload();
 								that.status = ''
 							} else {

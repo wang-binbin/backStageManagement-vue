@@ -245,7 +245,7 @@ body{
 }
 
 .red.jquery-accordion-menu>ul>li.active>a,.red.jquery-accordion-menu>ul>li:hover>a {
-	background: #DA4453
+	background: rgba(89,89,89,1)
 }
 
 .red.jquery-accordion-menu>ul>li>a {

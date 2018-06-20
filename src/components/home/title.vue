@@ -1,17 +1,14 @@
 <template>
-  <div class="hello">
+  <div class="tab hello">
   			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<a class="navbar-brand"  style="margin-left: 0!important;">
-							<img alt="Brand" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/official/logo.png">
+							<img alt="Brand" src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/logo.png">
 						</a>
-
-					</div>
-					<div class="title">
-						<ul class="user">
-							<li>{{msg}}</li>
-							<li class="blue">退出</li>
+	<ul class="title">
+							<li>欢迎，管理员&nbsp;&nbsp;&nbsp;{{msg}}</li>
+							<li class="blue tui" @click="quit">退出</li>
 						</ul>
 					</div>
 				</div>
@@ -22,31 +19,50 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'tab',
   data () {
     return {
-      msg: '15201621057'
+      msg: ''
     }
-  }
+  },
+  methods: {
+			quit:function(){
+				var that=this
+				that.$router.push('/')
+							
+			},
+			}
 }
 </script>
 
 <style scoped>
+
 	.hello{
 		position: fixed;
 	 width: 100%;
 	 z-index: 5;
 	}
+	.navbar-header{
+		width: 100%;
+	}
 	.navbar{
 		border: none;
 		border-radius: 0;
 		margin-bottom: 2px;
-		background: #434956;
+		background: #FFEA47;
 	}
 	
-.title ul:nth-child(1){
+.title{
 	float: right;
 	color: #fff;
-	margin-right: 50px;
+	margin-right: 30px;
 }
+.title li{
+	color: rgba(0,0,0,1);
+	float: left;
+	margin-right: 20px;
+}
+.title	.tui{
+		color: rgba(1,51,255,0.59);
+	}
 </style>
