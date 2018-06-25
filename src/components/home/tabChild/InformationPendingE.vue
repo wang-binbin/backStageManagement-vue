@@ -26,7 +26,7 @@
 						<li :class="{ active: isActive1 }">年龄:{{age}}</li>
 					</ul>
 					<ul>
-						<li style="font-size: 20px;">个人信息</li>
+
 						<li :class="{ active: isActive2,signature:signature}"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/signature.png">个性签名:{{introduction==''?"未填写":introduction==null?"未填写":introduction}}</li>
 						<li :class="{ active: isActive3 }"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/industry.png">行业:{{industry==''?"未填写":industry==null?"未填写":industry}}</li>
 						<li :class="{ active: isActive4 }"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/education.png">学历:{{education==''?"未填写":education==null?"未填写":education}}</li>
@@ -34,19 +34,20 @@
 					</ul>
 
 				</div>
+				<p style="height: 1px;width: 100%;clear: both;"></p>
 				<div class="presentStatus">
 					<ul>
 						<li>当前状态:{{status=='1'?'审核通过(未上墙)':(status=='2'?'审核拒绝':status == '0'?'等待审核':'')}}</li>
 					</ul>
-
+				</div>
+				<div class="buttt">
 					<ul class="audit" v-if="status=='0'">
-						
+
 						<li class="hand" @click="auditRefuse">审核拒绝</li>
 						<li class="hand " @click="auditPass">审核通过</li>
-						
+
 						<p style="clear: both;"></p>
 					</ul>
-
 				</div>
 			</div>
 
@@ -146,7 +147,7 @@
 										'redPkgPic': result.data.url,
 										'isNew': flag
 									})
-									
+
 								} else {
 									alert(result.msg)
 								}
@@ -167,7 +168,7 @@
 										"pic": result.data.url,
 										'isNew': flag
 									})
-									
+
 								} else {
 									alert(result.msg)
 								}
@@ -199,39 +200,40 @@
 							alert(result.msg)
 							that.$router.push('/')
 						} else {
-						if(result.status == '0000') {
-							$.ajax({
-								type: "post",
-								url: "/user/getUserInfo",
-								async: false,
-								data: {
-									userId: that.userData.userInfoApply.id
-								},
-								dataType: "json",
-								success: function(result) {
-									if(result.status == '0000') {
-										console.log(result.data.userInfo.status)
-										if(result.data.userInfo.status == '1001') {
-											that.$router.push({
-												path: '/passI',
-												query: {
-													registerPendinExamine: that.userData.userInfoApply.id
-												}
-											})
-										} else if(result.data.userInfo.status == '1000') {
-											that.$router.push('/InformationPending')
-											that.reload();
-								that.status = ''
-										}
+							if(result.status == '0000') {
+								$.ajax({
+									type: "post",
+									url: "/user/getUserInfo",
+									async: false,
+									data: {
+										userId: that.userData.userInfoApply.id
+									},
+									dataType: "json",
+									success: function(result) {
+										if(result.status == '0000') {
+											console.log(result.data.userInfo.status)
+											if(result.data.userInfo.status == '1001') {
+												that.$router.push({
+													path: '/passI',
+													query: {
+														registerPendinExamine: that.userData.userInfoApply.id
+													}
+												})
+											} else if(result.data.userInfo.status == '1000') {
+												that.$router.push('/InformationPending')
+												that.reload();
+												that.status = ''
+											}
 
-									} else {
-										alert(result.msg)
+										} else {
+											alert(result.msg)
+										}
 									}
-								}
-							})
-						} else {
-							alert(result.msg)
-						}}
+								})
+							} else {
+								alert(result.msg)
+							}
+						}
 					}
 				})
 
@@ -254,7 +256,7 @@
 
 <style scoped>
 	.active {
-		color: greenyellow;
+		color: #20c8d2;
 	}
 	
 	.hand {
@@ -262,27 +264,38 @@
 	}
 	
 	.audit {
-		margin-top: 50px;
+		margin-top: 30px;
+		margin-bottom: 40px;
 	}
 	
 	.audit li {
-		float: left;
-		width: 150px;
-		background: #7ABFEF ;
-		text-align: center;
+		float: right;
+		width: 80px;
 		border-radius: 5px;
+		font-size: 10px;
+		color: white;
+		background: #7abfef;
+		height: 25px;
+		text-align: center;
+		line-height: 25px;
 	}
 	
 	.audit li:nth-child(1) {
-		margin-left: 234px;
-		margin-right: 50px;
-		background: #F28879 ;
+		background: #F28879;
+		float: left;
+	}
+	
+	.buttt {
+		width: 200px;
+		margin: 0 auto;
 	}
 	
 	.presentStatus {
 		clear: both;
 		text-align: center;
-		font-size: 24px;
+		margin-top: 20px;
+		font-size: 14px;
+		color: #A7A7A7;
 	}
 	
 	.particularss img {
@@ -304,7 +317,7 @@
 	.particularss {
 		float: right;
 		margin-top: 50px;
-		width: 225px;
+		width: 200px;
 	}
 	
 	.photo ul li {
@@ -338,30 +351,30 @@
 	.tielee {
 		position: relative;
 		padding-left: 20px;
-		height: 50px;
-		line-height: 50px;
-		font-size: 20px;
-		border-bottom: 1px solid #5E5E5E;
+		height: 40px;
+		line-height: 40px;
+		font-size: 14px;
+		border-bottom: 1px solid #DADADA;
 	}
 	
 	.cancel {
-		height: 50px;
+		/*height: 50px;
 		cursor: pointer;
 		font-size: 26px;
 		width: 60px;
 		text-align: center;
 		font-weight: bold;
-		color: #000;
+		color: #000;*/
+		cursor: pointer;
 		position: absolute;
-		right: 0px;
-		top: 0;
+		right: 10px;
+		top: 13px;
 	}
-	
-	.cancel img {
+	/*.cancel img {
 		width: 50%;
 		margin-left: 15px;
 		margin-top: 10px;
-	}
+	}*/
 	
 	.examine {
 		position: fixed;
@@ -376,11 +389,11 @@
 		position: fixed;
 		left: 50%;
 		top: 7%;
-		margin-left: -415px;
-		width: 830px;
-		height: 570px;
+		margin-left: -400px;
+		width: 800px;
+		/*height: 570px;*/
 		background: #F5F5F5;
-		border: 1px solid #5E5E5E;
+		border-radius: 5px;
 	}
 	
 	.signature {

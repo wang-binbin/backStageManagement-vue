@@ -115,7 +115,6 @@
 </template>
 
 <script>
-	import examine from "./tabChild/examine.vue"
 	export default {
 
 		name: "Home",

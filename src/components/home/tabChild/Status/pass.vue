@@ -94,7 +94,7 @@
 		width: 365px;
 		height: 210px;
 		background: #fff;
-		border: 1px solid #122B40;
+		    border-radius: 5px;
 		position: fixed;
     left: 50%;
     top: 50%;

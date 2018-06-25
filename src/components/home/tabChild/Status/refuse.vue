@@ -22,7 +22,7 @@
 <script>
 	export default {
 		name: "pass",
-		inject: ["reload"],
+		inject: ["reload"],//注入依赖
 		data() {
 			return {
 				radio: '',
@@ -84,7 +84,7 @@
 							}	else{
 							if(result.status == '0000') {
 								that.$router.push('/registerPending')
-								that.reload();
+								that.reload();//路由跳转刷新
 								that.status = ''
 							} else {
 								alert(result.msg)
@@ -125,7 +125,7 @@
 		width: 442px;
 		height: 500px;
 		background: #fff;
-		border: 1px solid #122B40;
+		    border-radius: 5px;
 		position: fixed;
 		left: 50%;
 		top: 50%;
@@ -139,21 +139,10 @@
 	}
 	
 	.cancel {
-		height: 50px;
 		cursor: pointer;
-		font-size: 26px;
-		width: 60px;
-		text-align: center;
-		font-weight: bold;
-		color: #000;
 		position: absolute;
-		right: 0px;
-		top: 0;
-	}
-	.cancel img{
-		    width: 50%;
-    margin-left: 15px;
-    margin-top: 5px;
+		    right: 10px;
+    top: 13px;
 	}
 	
 	.refuseReasonOption label {

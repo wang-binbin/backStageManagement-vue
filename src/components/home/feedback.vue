@@ -48,7 +48,7 @@ inject: ["reload"],
 
 			}
 		},
-		mounted: function() {
+		mounted: function() {//页面开始调用
 			this.getData();
 		},
 		methods: {

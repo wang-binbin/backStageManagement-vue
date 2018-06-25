@@ -20,7 +20,7 @@
 					<li>年龄:{{age}}</li>
 				</ul>
 				<ul>
-					<li style="font-size: 20px;">个人信息</li>
+
 					<li class="signature"><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/signature.png">个性签名:{{introduction==''?"未填写":introduction==null?"未填写":introduction}}</li>
 					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/industry.png">行业:{{industry==''?"未填写":industry==null?"未填写":industry}}</li>
 					<li><img src="https://maggie-public.oss-cn-beijing.aliyuncs.com/backStageManagement/education.png">学历:{{education==''?"未填写":education==null?"未填写":education}}</li>
@@ -28,25 +28,33 @@
 				</ul>
 
 			</div>
+			<p style="height: 1px;width: 100%;clear: both;"></p>
 			<div class="presentStatus">
 				<ul>
 					<li>当前状态:{{status=='1001'?'审核通过(未上墙)':(status=='2000'?'审核拒绝':status == '0000'?'等待审核':status == '1000'?'上墙':'')}}</li>
 				</ul>
+
+			</div>
+			<div class="buttt">
+
 				<ul class="audit" v-if="status=='1001'">
-					<li class="hand" @click="revocation">撤销审核</li>
+					<li class="hand cexiao" @click="revocation">撤销审核</li>
 					<li class="hand" @click="onWall">上墙</li>
 					<p style="clear: both;"></p>
 				</ul>
 				<ul class="audit" v-else-if="status=='1000'">
-					<li class="hand" @click="revocation">撤销审核</li>
+					<li class="hand cexiao" @click="revocation">撤销审核</li>
 					<li class="hand" @click="downFrame">下架</li>
 					<p style="clear: both;"></p>
 				</ul>
 				<ul class="audit" v-else-if="status=='2000'">
-					<li class="hand" style="margin-left: 365px;" @click="revocation">撤销审核</li>
+					<li class="hand cexiao" @click="revocation">撤销审核</li>
 					<p style="clear: both;"></p>
 				</ul>
-
+				<ul class="audit" v-else-if="status=='0000'">
+					<li style="height: 23px;width: 100%;"></li>
+					<p style="clear: both;"></p>
+				</ul>
 			</div>
 		</div>
 
@@ -250,12 +258,18 @@
 		cursor: pointer;
 	}
 	
-	.audit {
-		margin-top: 50px;
+	.buttt {
+		width: 200px;
+		margin: 0 auto;
 	}
 	
-	.audit li {
-		float: left;
+	.audit {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	
+	.cexiao {
+		text-decoration: underline
 	}
 	
 	.signature {
@@ -264,12 +278,12 @@
 	}
 	
 	.audit li:nth-child(1) {
-		margin-left: 300px;
-		margin-right: 50px;
+		float: left;
 	}
 	
 	.audit li:nth-child(2) {
 		width: 90px;
+		float: right;
 		border: 1px solid #9D9D9D;
 		text-align: center;
 	}
@@ -277,7 +291,9 @@
 	.presentStatus {
 		clear: both;
 		text-align: center;
-		font-size: 24px;
+		font-size: 14px;
+		color: #a7a7a7;
+		margin-top: 20px;
 	}
 	
 	.particularss img {
@@ -299,7 +315,7 @@
 	.particularss {
 		float: right;
 		margin-top: 50px;
-		width: 225px;
+		width: 200px;
 	}
 	
 	.photo ul li {
@@ -331,31 +347,19 @@
 	}
 	
 	.cancel {
-		height: 50px;
 		cursor: pointer;
-		font-size: 26px;
-		width: 60px;
-		text-align: center;
-		font-weight: bold;
-		color: #000;
 		position: absolute;
-		right: 0px;
-		top: 0;
-	}
-	
-	.cancel img {
-		width: 50%;
-		margin-left: 15px;
-		margin-top: 10px;
+		right: 10px;
+		top: 13px;
 	}
 	
 	.tielee {
 		position: relative;
 		text-align: center;
-		height: 50px;
-		line-height: 50px;
-		font-size: 20px;
-		border-bottom: 1px solid #5E5E5E;
+		height: 40px;
+		line-height: 40px;
+		font-size: 14px;
+		border-bottom: 1px solid #DADADA;
 	}
 	
 	.examine {
@@ -371,10 +375,10 @@
 		position: fixed;
 		left: 50%;
 		top: 7%;
-		margin-left: -415px;
-		width: 830px;
-		height: 570px;
+		margin-left: -400px;
+		width: 800px;
+		/*height: 570px;*/
 		background: #F5F5F5;
-		border: 1px solid #5E5E5E;
+		border-radius: 5px;
 	}
 </style>

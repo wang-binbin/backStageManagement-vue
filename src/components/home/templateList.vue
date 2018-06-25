@@ -28,7 +28,10 @@
 						<th>审核拒绝原因</th>
 						<th>{{items.createTime}}</th>
 						<th>
-							<span class="blue" @click="Delete(items.id)">删除</span>
+							 <v-popconfirm class="blue" title="确定删除吗?" @confirm="Delete(items.id)" >
+      <a href="javascript:;">删除</a>
+  </v-popconfirm>
+							<!--<span >删除</span>-->
 						</th>
 					</tr>
 				</tbody>
@@ -40,11 +43,10 @@
 </template>
 
 <script>
-
 	export default {
 
 		name: "registerPending",
-		inject: ["reload"],
+		inject: ["reload"],//注入依赖，用于跳转后刷新页面
 		data() {
 			return {
 				users: [],
@@ -62,7 +64,7 @@
 					url: "/user/getAllInfoAuditReason",
 					async: false,
 					data: {
-					
+
 					},
 					dataType: "json",
 					success: function(result) {
@@ -71,7 +73,7 @@
 							that.$router.push('/')
 						}
 						if(result.status == '0000') {
-								that.users = result.data
+							that.users = result.data
 						} else {
 							alert(result.msg)
 						}
@@ -80,26 +82,29 @@
 			},
 			Delete: function(id) {
 				var that = this
-				$.ajax({
-					type: "post",
-					url: "/admin/delInfoAuditReason",
-					async: false,
-					data: {reasonId: id},
-					dataType: "json",
-					success: function(result) {
-						if(result.msg == '未登录') {
-							alert(result.msg)
-							that.$router.push('/')
+					$.ajax({
+						type: "post",
+						url: "/admin/delInfoAuditReason",
+						async: false,
+						data: {
+							reasonId: id
+						},
+						dataType: "json",
+						success: function(result) {
+							if(result.msg == '未登录') {
+								alert(result.msg)
+								that.$router.push('/')
+							}
+							if(result.status == '0000') {
+
+								alert(result.msg)
+								that.reload();//跳转后刷新页面
+							} else {
+								alert(result.msg)
+							}
 						}
-						if(result.status == '0000') {
-						
-							alert(result.msg)
-							that.reload();
-						} else {
-							alert(result.msg)
-						}
-					}
-				})
+					})
+
 			},
 			New: function() {
 				var that = this

@@ -86,7 +86,6 @@
 </template>
 
 <script>
-	import examine from "./tabChild/examine.vue"
 	export default {
 
 		name: "registerPending",
@@ -103,7 +102,7 @@
 
 			}
 		},
-		mounted: function() {
+		mounted: function() {//页面开始调用
 			this.getData();
 		},
 		methods: {

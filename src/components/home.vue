@@ -6,10 +6,10 @@
 				<!--<div class="jquery-accordion-menu-header" id="form"></div>-->
 				<ul id="demo-list">
 					<li class="active">
-						<router-link to="/userManagement"><i class="fa fa-suitcase"></i>用户管理</router-link>
+						<router-link  to="/userManagement"><v-icon type="user"></v-icon>用户管理</router-link>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-cog"></i>审核管理</a>
+						<a href="#home"><v-icon type="bars"></v-icon>审核管理</a>
 						<ul class="submenu">
 
 							<li>
@@ -30,7 +30,7 @@
 						</ul>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-suitcase"></i>消息推送</a>
+						<a href="#home"><v-icon type="message"></v-icon>消息推送</a>
 						<ul class="submenu">
 
 							<li>
@@ -95,7 +95,9 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-	
+	.jquery-accordion-menu ul li a i{
+		width: 27px;
+	}
 	body {
 		background: #f0f0f0;
 		padding: 0;
@@ -114,7 +116,7 @@
 	.filterinput {
 		background-color: rgba(249, 244, 244, 0);
 		border-radius: 15px;
-		width: 90%;
+		width: 86%;
 		height: 30px;
 		border: thin solid #FFF;
 		text-indent: 0.5em;

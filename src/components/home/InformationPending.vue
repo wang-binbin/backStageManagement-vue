@@ -63,7 +63,7 @@
 						<th>{{index+1}}</th>
 						<th class="cursor" @click="Examine(items)">{{items.userInfoApply.nickName}}</th>
 						<th class="red">{{items.userInfoApply.gender=='m'?'男':(items.userInfoApply.gender=='f'?'女':'')}}</th>
-						<th class="cursor" @click="Examine(items)">{{items.mobile}}</th>
+						<th class="cursor" @click="Examine(items)">{{items.userInfoApply.mobile}}</th>
 						<th class="">{{items.userInfoApply.updateTime}}</th>
 						<th class="red">{{items.userInfoApply.status=='1'?'审核通过':(items.userInfoApply.status=='2'?'审核拒绝':items.userInfoApply.status == '0'?'等待审核':'')}}</th>
 						<th>
@@ -84,7 +84,6 @@
 </template>
 
 <script>
-	import examine from "./tabChild/examine.vue"
 	export default {
 
 		name: "registerPending",
@@ -100,7 +99,7 @@
 
 			}
 		},
-		mounted: function() {
+		mounted: function() {//页面开始
 			this.getData();
 		},
 		methods: {

@@ -6,9 +6,9 @@
 				<div class="input-group">
 					<input type="tel" class="form-control" id="code" maxlength="11" placeholder="请输入手机号">
 					<p style="clear: both;"></p>
-					<input type="tel" class="form-control" id="inp" placeholder="请输入验证码">
+					<input type="tel" class="form-control" id="inp" placeholder="请输入验证码" @keyup.13='login'>
 					<span class="input-group-btn" id="span">
-<button class="btn code btn-default" type="button" @click="getcode">获取验证码</button></span>
+<button class="btn code btn-default" type="button" @click="getcode" >获取验证码</button></span>
 					<p style="clear: both;height: 40px;"></p>
 					<div class="login" @click="login">立即登录</div>
 				</div>
@@ -121,7 +121,7 @@
 		display: inline-block;
 	}
 	.code{
-	background: #FFEA47;
+	background: #ebcd00;
     border: none;
     color: #fff;
 	}
@@ -153,7 +153,7 @@
 		font-size: 20px;
 		color: #FFFFFF;
 		text-align: center;
-		background: #FFEA47;
+		background: #ebcd00;
     border: none;
     color: #fff;
 		border-radius: 5px;
