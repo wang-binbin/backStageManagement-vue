@@ -85,15 +85,15 @@ alert('不能为空!')
 	}
 	
 	.CreateTemplate {
-
-		position: absolute;
+ position: fixed!important;
 		left: 10%;
 		width: 90%;
 		height: 100%;
 		background: #fff;
 		top: 0px;
 		padding-top: 80px;
-		/*background: #f5f1f5;*/
+
+    overflow-y: hidden;
 	}
 	
 	.content {

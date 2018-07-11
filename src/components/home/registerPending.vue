@@ -66,7 +66,7 @@
 						<th class="red">{{items.gender=='m'?'男':(items.gender=='f'?'女':'')}}</th>
 						<th class="cursor" @click="Examine(items.id)">{{items.mobile}}</th>
 						<th class="">{{items.regDate}}</th>
-						<th class="">{{items.lastGeo.time}}</th>
+						<th class="">{{items.lastGeo==null?'无定位权限':(items.lastGeo!=null?items.lastGeo.time:'')}}</th>
 						<th class="red">{{items.status=='1001'?'审核通过(未上墙)':(items.status=='2000'?'审核拒绝':items.status == '0000'?'等待审核':items.status == '1000'?'上墙':'')}}</th>
 						<th>
 							<span class="blue look" @click="Examine(items.id)">查看</span>
@@ -104,9 +104,11 @@
 		},
 		mounted: function() {//页面开始调用
 			this.getData();
+			
 		},
 		methods: {
 			Examine: function(id) {
+				
 				var that = this
 				that.$router.push({
 					path: '/registerPendinExamine',
