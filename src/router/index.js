@@ -7,6 +7,10 @@ import CreateTemplate from '@/components/home/template/CreateTemplate'
 import templateList from '@/components/home/templateList'
 import feedbackcontent from '@/components/home/feedbackChild/feedbackcontent'
 import feedback from '@/components/home/feedback'
+import messageList from '@/components/home/messageList'
+import bidList from '@/components/home/bidList'
+import userjoin from '@/components/home/userjoin'
+import bannerList from '@/components/home/bannerList'
 import examine from '@/components/home/tabChild/examine'
 import registerPending from '@/components/home/registerPending'
 import userManagement from '@/components/home/userManagement'
@@ -113,7 +117,50 @@ export default new Router({
 					}, ]
 
 				},
+{
+					path: "/messageList",
+					name: 'messageList',
+					component: messageList,
+//					children: [{
+//						path: "/feedbackcontent",
+//						name: 'feedbackcontent',
+//						component: feedbackcontent,
+//					}, ]
 
+				},
+				{
+					path: "/bidList",
+					name: 'bidList',
+					component: bidList,
+//					children: [{
+//						path: "/feedbackcontent",
+//						name: 'feedbackcontent',
+//						component: feedbackcontent,
+//					}, ]
+
+				},
+								{
+					path: "/userjoin",
+					name: 'userjoin',
+					component: userjoin,
+//					children: [{
+//						path: "/feedbackcontent",
+//						name: 'feedbackcontent',
+//						component: feedbackcontent,
+//					}, ]
+
+				},
+												{
+					path: "/bannerList",
+					name: 'bannerList',
+					component: bannerList,
+//					children: [{
+//						path: "/feedbackcontent",
+//						name: 'feedbackcontent',
+//						component: feedbackcontent,
+//					}, ]
+
+				},
 			]
 		},
 

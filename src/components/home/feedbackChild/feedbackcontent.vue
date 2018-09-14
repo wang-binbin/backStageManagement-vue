@@ -61,7 +61,7 @@
 	}
 	
 	.CreateTemplate {
-		position: absolute;
+		position: fixed;
 		left: 10%;
 		width: 90%;
 		height: 100%;

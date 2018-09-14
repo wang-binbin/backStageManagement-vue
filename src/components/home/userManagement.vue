@@ -93,7 +93,7 @@
 						<th class="red">{{items.gender=='m'?'男':(items.gender=='f'?'女':'')}}</th>
 						<th class="cursor" @click="Examine(items.id)">{{items.mobile}}</th>
 						<th class="">{{items.regDate}}</th>
-						<th class="">{{items.lastGeo.time}}</th>
+						<th class="">{{(items.lastGeo==null||items.lastGeo=='')?'无定位权限':items.lastGeo!=null?items.lastGeo.time:''}}</th>
 						<th class="red">{{items.status=='1001'?'审核通过(未上墙)':(items.status=='2000'?'审核拒绝':items.status == '0000'?'等待审核':items.status == '1000'?'上墙':'')}}</th>
 						<th>
 							<span class="blue" @click="banned">封禁</span>
@@ -283,8 +283,8 @@
 							that.$router.push('/')
 						}else {
 						if(result.status == "0000") {
-
 							that.users = result.data.content
+							console.log(result.data.content[0].lastGeo)
 							that.totalElements = result.data.totalElements
 						} else {
 							alert(result.msg);

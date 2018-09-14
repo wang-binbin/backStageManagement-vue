@@ -32,12 +32,23 @@
 					<li>
 						<a href="#home"><v-icon type="message"></v-icon>消息推送</a>
 						<ul class="submenu">
-
 							<li>
 								<router-link to="/templateList">拒绝模板</router-link>
 							</li>
 							<li>
 								<router-link to="/feedback">意见反馈</router-link>
+							</li>
+							<li>
+								<router-link to="/messageList">合伙人活动列表</router-link>
+							</li>
+							<li>
+								<router-link to="/bidList">出价列表</router-link>
+							</li>
+								<li>
+								<router-link to="/userjoin">合伙人报名列表</router-link>
+							</li>
+									<li>
+								<router-link to="/bannerList">banner列表</router-link>
 							</li>
 						</ul>
 					</li>
