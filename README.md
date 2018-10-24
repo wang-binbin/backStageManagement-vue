@@ -1,6 +1,6 @@
 # management
 
-> A Vue.js project
+> 后台管理系统
 
 ## Build Setup
 
